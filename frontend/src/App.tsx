@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './App.css';
 
-import Map from './views/Map';
+import MapView from './views/Map';
+import StatsView from './views/Stats';
+import NewsView from './views/News';
 
 enum Routes {
   Map,
@@ -27,7 +29,9 @@ function App() {
 
   return (
     <div className="App">
-      {route === Routes.Map && <Map />}
+      {route === Routes.Map && <MapView />}
+      {route === Routes.Stats && <StatsView />}
+      {route === Routes.News && <NewsView />}
     </div>
   );
 }

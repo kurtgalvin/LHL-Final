@@ -4,12 +4,12 @@ interface IProps {
 
 }
 
-const MapView: React.FC<IProps> = () => {
+const NewsView: React.FC<IProps> = () => {
   return (
     <div>
-      Map
+      News
     </div>
   )
 }
 
-export default MapView
+export default NewsView
