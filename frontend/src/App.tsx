@@ -11,24 +11,33 @@ enum Routes {
   News
 }
 
-interface Links {
-  toMap: () => void,
-  toState: () => void,
-  toNews: () => void
+interface Link {
+  label: string,
+  to: () => void
 }
 
 function App() {
   const [route, setRoute] = useState<Routes>(Routes.Map)
 
-  const links: Links = {
-    toMap: () => setRoute(Routes.Map),
-    toState: () => setRoute(Routes.Stats),
-    toNews: () => setRoute(Routes.News)
-  }
-
+  const links: Link[] = [
+    {
+      label: "Map",
+      to: () => setRoute(Routes.Map)
+    },
+    {
+      label: "Stats",
+      to: () => setRoute(Routes.Stats)
+    },
+    {
+      label: "News",
+      to: () => setRoute(Routes.News)
+    }
+  ]
 
   return (
     <div className="App">
+      {links.map((link) => <div onClick={link.to}>{link.label}</div>)}
+      ---
       {route === Routes.Map && <MapView />}
       {route === Routes.Stats && <StatsView />}
       {route === Routes.News && <NewsView />}
