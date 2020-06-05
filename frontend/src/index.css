@@ -18,3 +18,9 @@ div.map{
   margin: auto;
   text-align: center;
 }
+
+img.icon {
+  height: 20px;
+  width:20px;
+  float: left;
+}

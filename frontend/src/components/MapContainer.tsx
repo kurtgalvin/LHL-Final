@@ -4,7 +4,6 @@ import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps
 const containerStyle = {
   width: '60vw',
   height: '60vh',
-  padding: '5rem',
   display: 'inline-block',
   'border-radius': '15px',
   'box-shadow': '5px 10px #888888'
@@ -23,8 +22,20 @@ const options = {
 
 function MapContainer() {
 
-  const {isLoaded, loadError} = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY })
-  const [markers, setMarkers] = React.useState([{id: 1, lat: 49.239370, lng: -123.044590 }])
+  interface IMarker {
+    id: number;
+    name: string;
+    lat: number;
+    lng: number;
+  }
+
+  const {isLoaded, loadError} = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY });
+  const [markers, setMarkers] = React.useState([{id: 1, name: 'Jessie\'s Place', lat: 49.239370, lng: -123.044590 }]);
+  const [selected, setSelected] = React.useState<IMarker | null>(null);
+  
+  //for controlling pan of map
+  const mapRef = React.useRef();
+  const onMapLoad = React.useCallback((map) => {mapRef.current = map;}, []);
 
   if (loadError) return <div> "Error loading maps" </div>;
   if (!isLoaded) return <div>"Loading"</div>;
@@ -36,6 +47,7 @@ function MapContainer() {
         center={center}
         zoom={12}
         options={options}
+        onLoad = {onMapLoad}
       >
         { markers.map(marker => (
           <Marker 
@@ -43,12 +55,36 @@ function MapContainer() {
             position= {{lat: marker.lat, lng: marker.lng}} 
             icon= {{
               url:'/shop_cart.svg',
-              scaledSize: new window.google.maps.Size(20,20),
+              scaledSize: new window.google.maps.Size(30,30),
               origin: new window.google.maps.Point(0,0),
               anchor: new window.google.maps.Point(15,15)
             }}
+            onClick={() => setSelected(marker)}
           />
         )) }
+         {selected ? (
+          <InfoWindow 
+            position={{lat: selected.lat, lng: selected.lng}} 
+            onCloseClick={() => setSelected(null)}
+          >
+              <div>
+                <h4>{selected.name}</h4>
+                <table>
+                  <tr>
+                    <td><img className="icon" src="/tp.svg" /> </td>
+                    <td>In Stock</td>
+                  </tr>
+                  <tr>
+                    <td><img className="icon" src="/hand-sanitizer.svg" /></td>
+                    <td>Out of Stock</td>
+                  </tr>
+                  <tr>
+                    <td><img className="icon" src="/mask.svg" /></td>
+                    <td>Unknown</td>    
+                  </tr>  
+                </table>
+              </div>
+           </InfoWindow>) : null}
         
       </GoogleMap>
   )
