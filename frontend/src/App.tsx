@@ -1,24 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
+import MapView from './views/Map';
+import StatsView from './views/Stats';
+import NewsView from './views/News';
+
+enum Routes {
+  Map,
+  Stats,
+  News
+}
+
+interface Link {
+  label: string,
+  to: () => void
+}
+
 function App() {
+  const [route, setRoute] = useState<Routes>(Routes.Map)
+
+  const links: Link[] = [
+    {
+      label: "Map",
+      to: () => setRoute(Routes.Map)
+    },
+    {
+      label: "Stats",
+      to: () => setRoute(Routes.Stats)
+    },
+    {
+      label: "News",
+      to: () => setRoute(Routes.News)
+    }
+  ]
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {links.map((link) => <div onClick={link.to}>{link.label}</div>)}
+      ---
+      {route === Routes.Map && <MapView />}
+      {route === Routes.Stats && <StatsView />}
+      {route === Routes.News && <NewsView />}
     </div>
   );
 }
