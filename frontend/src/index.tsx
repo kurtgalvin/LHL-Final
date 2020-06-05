@@ -8,7 +8,10 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <MapContainer />
+    
+    <div className="map">   
+      <MapContainer />
+    </div>
   </React.StrictMode>,
   document.getElementById('root')
 );
