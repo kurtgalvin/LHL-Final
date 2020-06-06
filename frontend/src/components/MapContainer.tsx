@@ -1,8 +1,9 @@
 import React from 'react';
-import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps/api';
+import { GoogleMap, useLoadScript, Marker, InfoWindow, MarkerClusterer } from '@react-google-maps/api';
 import Locate from './Locate';
 
-const tmpMarkers = [ { id: 1,
+const tmpMarkers = [ 
+  { id: 1,
   name: 'Whole Foods Market',
   google_id: 'cd921dc7e7391fca34b65852e9b47a713c6eb9ce',
   type: 'supermarket',
@@ -203,7 +204,7 @@ const center = {
 
 
 
-const noPoi: any = [
+const noPoi: any = [ //google types argument
   {
       featureType: "poi",
       stylers: [
@@ -217,6 +218,8 @@ const options = {
   zoomControl: true,
   styles: noPoi
 }
+
+const markerCluseterOptions = { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'};
 
 function MapContainer() {
 
@@ -234,6 +237,7 @@ function MapContainer() {
   const {isLoaded, loadError} = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY });
   const [markers, setMarkers] = React.useState<IMarker[]>(tmpMarkers);
   const [selected, setSelected] = React.useState<IMarker | null>(null);
+
   
   //for controlling pan of map
   const mapRef : React.MutableRefObject<GoogleMap | undefined> = React.useRef();
@@ -241,7 +245,7 @@ function MapContainer() {
   const panTo = React.useCallback(({lat,lng}) => {
     if (mapRef.current) {
       mapRef.current.panTo({lat, lng});
-      (mapRef.current as any).setZoom(14); //horrible hack but setZoom is undefined on GoogleMap - though it works! 
+      (mapRef.current as any).setZoom(14); //horrible hack but setZoom is undefined on GoogleMap types - though it still works! 
     }
   }, [])
 
@@ -258,19 +262,27 @@ function MapContainer() {
         options={options}
         onLoad = {onMapLoad}
       >
-        { markers.map(marker => (
+
+
+    <MarkerClusterer options={markerCluseterOptions}>
+      {clusterer =>
+        markers.map(marker => (
           <Marker 
-            key={marker.id} 
-            position= {{lat: marker.lat, lng: marker.lng}} 
-            icon= {{
-              url:'/shop_cart.svg',
-              scaledSize: new window.google.maps.Size(30,30),
-              origin: new window.google.maps.Point(0,0),
-              anchor: new window.google.maps.Point(15,15)
-            }}
-            onClick={() => setSelected(marker)}
-          />
-        )) }
+          key={marker.id} 
+          position= {{lat: marker.lat, lng: marker.lng}} 
+          icon= {{
+            url:'/shop_cart.svg',
+            scaledSize: new window.google.maps.Size(30,30),
+            origin: new window.google.maps.Point(0,0),
+            anchor: new window.google.maps.Point(15,15)
+          }}
+          onClick={() => setSelected(marker)} 
+            clusterer={clusterer} 
+            />
+        ))
+      }
+    </MarkerClusterer>
+
          {selected ? (
           <InfoWindow 
             position={{lat: selected.lat, lng: selected.lng}} 
