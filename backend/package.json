@@ -2,10 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "backend for LHL Final",
-  "main": "server.js",
+  "main": "server.ts",
   "scripts": {
-    "start": "nodemon server.js",
-    "build": "tsc"
+    "build": "tsc",
+    "start": "nodemon ./build/server.js"
   },
   "author": "",
   "license": "MIT",
