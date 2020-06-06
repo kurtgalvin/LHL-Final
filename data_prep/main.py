@@ -32,7 +32,8 @@ for file_name in listdir('./csse_covid_19_daily_reports/'):
 
 df = df.sort_values(by=['month', 'day'])
 
-bc = df.loc[(df['country_region'] == 'Canada') & (df['province_state'] == 'British Columbia')].reset_index(drop=True)
-
+# bc = df.loc[(df['country_region'] == 'Canada') & (df['province_state'] == 'British Columbia')].reset_index(drop=True)
 # print(bc)
-bc.to_json(f'{DATA_PATH}/bc_data.json', orient='records')
+
+canada_data = df.loc[(df['country_region'] == 'Canada')].reset_index(drop=True)
+canada_data.to_json(f'{DATA_PATH}/canada_data.json', orient='records')
