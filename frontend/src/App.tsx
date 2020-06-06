@@ -36,7 +36,7 @@ function App() {
 
   return (
     <div className="App">
-      {links.map((link) => <div onClick={link.to}>{link.label}</div>)}
+      {links.map((link) => <div key={link.label} onClick={link.to}>{link.label}</div>)}
       ---
       {route === Routes.Map && <MapView />}
       {route === Routes.Stats && <StatsView />}
