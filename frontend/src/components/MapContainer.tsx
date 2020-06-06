@@ -1,12 +1,13 @@
 import React from 'react';
 import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps/api';
+import Locate from './Locate';
 
 const containerStyle = {
   width: '60vw',
   height: '60vh',
   display: 'inline-block',
-  'border-radius': '15px',
-  'box-shadow': '5px 10px #888888'
+  'borderRadius': '15px',
+  'boxShadow': '5px 10px #888888'
 
 };
 
@@ -30,18 +31,25 @@ function MapContainer() {
   }
 
   const {isLoaded, loadError} = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY });
-  const [markers, setMarkers] = React.useState([{id: 1, name: 'Jessie\'s Place', lat: 49.239370, lng: -123.044590 }]);
+  const [markers, setMarkers] = React.useState<IMarker[]>([{id: 1, name: 'Jessie\'s Place', lat: 49.239370, lng: -123.044590 }]);
   const [selected, setSelected] = React.useState<IMarker | null>(null);
   
   //for controlling pan of map
-  const mapRef = React.useRef();
+  const mapRef : React.MutableRefObject<GoogleMap | undefined> = React.useRef();
   const onMapLoad = React.useCallback((map) => {mapRef.current = map;}, []);
+  const panTo = React.useCallback(({lat,lng}) => {
+    if (mapRef.current) {
+      mapRef.current.panTo({lat, lng});
+      (mapRef.current as any).setZoom(14); //horrible hack but setZoom is undefined on GoogleMap - though it works! 
+    }
+  }, [])
 
   if (loadError) return <div> "Error loading maps" </div>;
   if (!isLoaded) return <div>"Loading"</div>;
    
   return (
-
+    <div>
+      <Locate panTo={panTo}/>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
@@ -70,23 +78,26 @@ function MapContainer() {
               <div>
                 <h4>{selected.name}</h4>
                 <table>
-                  <tr>
-                    <td><img className="icon" src="/tp.svg" /> </td>
-                    <td>In Stock</td>
-                  </tr>
-                  <tr>
-                    <td><img className="icon" src="/hand-sanitizer.svg" /></td>
-                    <td>Out of Stock</td>
-                  </tr>
-                  <tr>
-                    <td><img className="icon" src="/mask.svg" /></td>
-                    <td>Unknown</td>    
-                  </tr>  
+                  <tbody>
+                    <tr>
+                      <td><img className="icon" src="/tp.svg" alt="toilet paper icon" /> </td>
+                      <td>In Stock</td>
+                    </tr>
+                    <tr>
+                      <td><img className="icon" src="/hand-sanitizer.svg" alt="hand sanitizer icon"/></td>
+                      <td>Out of Stock</td>
+                    </tr>
+                    <tr>
+                      <td><img className="icon" src="/mask.svg" alt="mask icon"/></td>
+                      <td>Unknown</td>    
+                    </tr>  
+                  </tbody>
                 </table>
               </div>
            </InfoWindow>) : null}
         
       </GoogleMap>
+      </div>
   )
 }
 

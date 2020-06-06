@@ -1,4 +1,5 @@
 import React from 'react'
+import MapContainer from '../components/MapContainer'
 
 interface IProps {
 
@@ -6,9 +7,9 @@ interface IProps {
 
 const MapView: React.FC<IProps> = () => {
   return (
-    <div>
-      Map
-    </div>
+    <div className="map">   
+    <MapContainer />
+  </div>
   )
 }
 
