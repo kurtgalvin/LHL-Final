@@ -159,7 +159,7 @@ const tmpMarkers = [
 { id: 18,
   name: 'Whole Foods Market',
   google_id: '525f19bc8980b6c7d27e1d65af01ff3d0ebc8065',
-  type: 'supermarket',
+  type: 'pharmacy',
   lat: 49.325936,
   lng: -123.1430405,
   tp_stock: 2,
@@ -204,7 +204,7 @@ const center = {
 
 
 
-const noPoi: any = [ //google types argument
+const noPoi: any = [ //google types disagreement
   {
       featureType: "poi",
       stylers: [
@@ -213,7 +213,7 @@ const noPoi: any = [ //google types argument
     }
   ];
 
-const options = {
+const mapOptions = {
   disableDefaultUI: true,
   zoomControl: true,
   styles: noPoi
@@ -227,6 +227,7 @@ function MapContainer() {
     id: number;
     name: string;
     google_id: string;
+    type: string;
     lat: number;
     lng: number;
     tp_stock: number;
@@ -259,7 +260,7 @@ function MapContainer() {
         mapContainerStyle={containerStyle}
         center={center}
         zoom={12}
-        options={options}
+        options={mapOptions}
         onLoad = {onMapLoad}
       >
 
@@ -271,7 +272,7 @@ function MapContainer() {
           key={marker.id} 
           position= {{lat: marker.lat, lng: marker.lng}} 
           icon= {{
-            url:'/shop_cart.svg',
+            url: marker.type === 'pharmacy' ? '/pharm.svg' : '/shop_cart.svg',
             scaledSize: new window.google.maps.Size(30,30),
             origin: new window.google.maps.Point(0,0),
             anchor: new window.google.maps.Point(15,15)
