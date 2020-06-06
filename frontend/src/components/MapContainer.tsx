@@ -1,6 +1,9 @@
 import React from 'react';
 import { GoogleMap, useLoadScript, Marker, InfoWindow, MarkerClusterer } from '@react-google-maps/api';
 import Locate from './Locate';
+import {IconButton} from '@material-ui/core';
+import  ClearIcon from '@material-ui/icons/Clear';
+import  CheckIcon from '@material-ui/icons/Check';
 
 const tmpMarkers = [ 
   { id: 1,
@@ -296,14 +299,20 @@ function MapContainer() {
                     <tr>
                       <td><img className="icon" src="/tp.svg" alt="toilet paper icon" /> </td>
                       <td>{stock[selected.tp_stock]}</td>
+                      <td><IconButton aria-label='in-stock'><CheckIcon/></IconButton></td>
+                      <td><IconButton aria-label='out-of-stock'><ClearIcon/></IconButton></td>
                     </tr>
                     <tr>
                       <td><img className="icon" src="/hand-sanitizer.svg" alt="hand sanitizer icon"/></td>
                       <td>{stock[selected.hs_stock]}</td>
+                      <td><IconButton aria-label='in-stock'><CheckIcon/></IconButton></td>
+                      <td><IconButton aria-label='out-of-stock'><ClearIcon/></IconButton></td>
                     </tr>
                     <tr>
                       <td><img className="icon" src="/mask.svg" alt="mask icon"/></td>
-                      <td>{stock[selected.mask_stock]}</td>    
+                      <td>{stock[selected.mask_stock]}</td>  
+                      <td><IconButton aria-label='in-stock'><CheckIcon/></IconButton></td>
+                      <td><IconButton aria-label='out-of-stock'><ClearIcon/></IconButton></td>  
                     </tr>  
                   </tbody>
                 </table>
