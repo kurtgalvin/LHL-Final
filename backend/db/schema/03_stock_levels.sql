@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS stock_levels CASCADE;
+CREATE TABLE stock_levels (
+  id SERIAL PRIMARY KEY NOT NULL,
+  title VARCHAR(255)
+);
