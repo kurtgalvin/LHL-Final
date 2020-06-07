@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import './App.css';
+import { Paper, Tabs, Tab } from '@material-ui/core'
 
+import './App.scss';
 import MapView from './views/Map';
 import StatsView from './views/Stats';
 import NewsView from './views/News';
@@ -17,7 +18,7 @@ interface Link {
 }
 
 function App() {
-  const [route, setRoute] = useState<Routes>(Routes.Map)
+  const [route, setRoute] = useState<Routes>(Routes.Stats)
 
   const links: Link[] = [
     {
@@ -36,8 +37,17 @@ function App() {
 
   return (
     <div className="App">
-      {links.map((link) => <div key={link.label} onClick={link.to}>{link.label}</div>)}
-      ---
+      <Paper className="Paper" elevation={3}>
+        <Tabs 
+          value={route}
+          indicatorColor="primary"
+          textColor="primary"
+          centered
+        >
+          {links.map(link => <Tab label={link.label} onClick={link.to} />)}
+        </Tabs>
+      </Paper>
+
       {route === Routes.Map && <MapView />}
       {route === Routes.Stats && <StatsView />}
       {route === Routes.News && <NewsView />}
