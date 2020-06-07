@@ -53,10 +53,22 @@ provinces = {
     "Northwest Territories": "NT"
 }
 
+canada_df = pd.DataFrame(columns=['month', 'day', 'year', 'date'])
+
 for p in provinces.keys():
     p_data = canada_data.loc[canada_data['province_state'].str.contains(p, na=False, regex=True)]
     p_data = p_data.groupby(['date', 'country', 'month', 'day', 'year'], as_index=False).sum()
-    p_data.to_json(f'{DATA_PATH}/canada/{provinces[p]}.json', orient='records')
-    print(provinces[p], len(p_data.index))
+
+    min_data = p_data[['month', 'day', 'year', 'date', 'confirmed', 'deaths', 'recovered']]
+    min_data.rename(columns={
+        'confirmed': f'{provinces[p]}_confirmed',
+        'deaths': f'{provinces[p]}_deaths',
+        'recovered': f'{provinces[p]}_recovered'
+    }, inplace=True)
+    # p_data.to_json(f'{DATA_PATH}/canada/{provinces[p]}.json', orient='records')
+    canada_df = canada_df.merge(min_data, on=['month', 'day', 'year', 'date'], how='outer')
+
+canada_df = canada_df.sort_values(by=['month', 'day'])
+canada_df.to_json(f'{DATA_PATH}/canada.json', orient='records')
 
 # print(canada_data.loc[canada_data['province_state'].str.contains('Alberta', na=False, regex=False)].groupby(['date', 'country', 'month', 'day', 'year'], as_index=False).sum())
