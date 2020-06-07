@@ -18,7 +18,7 @@ interface Link {
 }
 
 function App() {
-  const [route, setRoute] = useState<Routes>(Routes.Map)
+  const [route, setRoute] = useState<Routes>(Routes.Stats)
 
   const links: Link[] = [
     {
