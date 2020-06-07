@@ -16,6 +16,8 @@
     "@types/react-dom": "^16.9.8",
     "@types/recharts": "^1.8.10",
     "axios": "^0.19.2",
+    "core-js": "^2.6.11",
+    "newsapi": "^2.4.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
