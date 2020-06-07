@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Paper, Tabs, Tab } from '@material-ui/core'
-import { styled } from '@material-ui/core/styles'
 
-import './App.css';
+import './App.scss';
 import MapView from './views/Map';
 import StatsView from './views/Stats';
 import NewsView from './views/News';
