@@ -14,8 +14,8 @@ for file_name in listdir('./csse_covid_19_daily_reports/'):
         temp_df.rename(columns={
             'Province/State': 'province_state',
             'Province_State': 'province_state',
-            'Country/Region': 'country_region',
-            'Country_Region': 'country_region',
+            'Country/Region': 'country',
+            'Country_Region': 'country',
             'Confirmed': 'confirmed',
             'Deaths': 'deaths',
             'Recovered': 'recovered'
@@ -28,12 +28,35 @@ for file_name in listdir('./csse_covid_19_daily_reports/'):
         temp_df['year'] = int(date[2])
         temp_df['date'] = '-'.join(date)
 
-        df = df.append(temp_df[['province_state', 'country_region', 'confirmed', 'deaths', 'recovered', 'month', 'day', 'year', 'date']])
+        df = df.append(temp_df[['province_state', 'country', 'confirmed', 'deaths', 'recovered', 'month', 'day', 'year', 'date']])
 
 df = df.sort_values(by=['month', 'day'])
 
-# bc = df.loc[(df['country_region'] == 'Canada') & (df['province_state'] == 'British Columbia')].reset_index(drop=True)
+# bc = df.loc[(df['country'] == 'Canada') & (df['province_state'] == 'British Columbia')].reset_index(drop=True)
 # print(bc)
 
-canada_data = df.loc[(df['country_region'] == 'Canada')].reset_index(drop=True)
-canada_data.to_json(f'{DATA_PATH}/canada_data.json', orient='records')
+canada_data = df.loc[(df['country'] == 'Canada')].reset_index(drop=True)
+# canada_data.to_json(f'{DATA_PATH}/canada_data.json', orient='records')
+
+provinces = {
+    "British Columbia": "BC",
+    "Alberta": "AB",
+    "Saskatchewan": "SK",
+    "Manitoba": "MB",
+    ", ON|Ontario": "ON",
+    ", QC|Quebec": "QC",
+    "New Brunswick": "NB",
+    "Nova Scotia": "NS",
+    "Prince Edward Island": "PE",
+    "Newfoundland and Labrador": "NL",
+    "Yukon": "YT",
+    "Northwest Territories": "NT"
+}
+
+for p in provinces.keys():
+    p_data = canada_data.loc[canada_data['province_state'].str.contains(p, na=False, regex=True)]
+    p_data = p_data.groupby(['date', 'country', 'month', 'day', 'year'], as_index=False).sum()
+    p_data.to_json(f'{DATA_PATH}/canada/{provinces[p]}.json', orient='records')
+    print(provinces[p], len(p_data.index))
+
+# print(canada_data.loc[canada_data['province_state'].str.contains('Alberta', na=False, regex=False)].groupby(['date', 'country', 'month', 'day', 'year'], as_index=False).sum())
