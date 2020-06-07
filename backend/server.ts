@@ -22,6 +22,12 @@ App.get('/api/data', (req, res) => res.json({
   message: "Seems to work!",
 }));
 
+// register routes
+const markersRouter = require("./routes/markers");
+// mount routes
+App.use("/api/markers", markersRouter(db));
+
+
 App.listen(PORT, () => {
   console.log(`Express seems to be listening on port ${PORT} so that's pretty good 👍`);
 });
