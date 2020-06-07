@@ -1,23 +1,51 @@
-import React from 'react';
-import { LineChart, XAxis, YAxis, Tooltip, Line } from 'recharts';
+import React, { useState, useEffect } from 'react';
+import { ResponsiveContainer, LineChart, YAxis, Tooltip, Brush, Line } from 'recharts';
 
-import bc_data from '../data/bc_data.json'
+import canadaData from '../data/canada.json'
+
+const provincesCode = {
+  "Alberta": "AB",
+  "British Columbia": "BC",
+  "Manitoba": "MB",
+  "New Brunswick": "NB",
+  "Newfoundland and Labrador": "NL",
+  "Nova Scotia": "NS",
+  "Northwest Territories": "NT",
+  "Ontario": "ON",
+  "Prince Edward Island": "PE",
+  "Quebec": "QC",
+  "Saskatchewan": "SK",
+  "Yukon": "YT"
+}
 
 interface IProps {
 
 }
 
-const StatsView: React.FC<IProps> = () => {
+const StatsView = ({}: IProps) => {
+  const [provinces, setProvinces] = useState<string[]>(["British Columbia", "Alberta"])
+  const [lines, setLines] = useState<React.ReactElement[]>([])
+
+  useEffect(() => {
+    setLines(provinces.map((p) => {
+      return <Line type="monotone" dataKey={`${(provincesCode as any)[p]}_confirmed`} stroke="#8884d8" dot={false} strokeWidth={3} />
+    }))
+  }, [provinces])
 
   return (
     <div className="Stats">
-      <LineChart width={window.innerWidth} height={300} data={bc_data}>
-        <XAxis dataKey="date"/>
-        <YAxis/>
-        <Tooltip/>
-        <Line type="monotone" dataKey="confirmed" stroke="#8884d8" dot={false} onClick={() => console.log('here')} />
-        <Line type="monotone" dataKey="deaths" stroke="#82ca9d" dot={false} />
-      </LineChart>
+      <ResponsiveContainer width="45%" height={300} >
+        <LineChart data={canadaData}>
+          <YAxis/>
+          <Tooltip/>
+          {lines}
+          <Brush dataKey="date" startIndex={50}>
+            <LineChart>
+              {lines.map(line => React.cloneElement(line, {stroke: "#82ca9d"}))}
+            </LineChart>
+          </Brush>
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   )
 }
