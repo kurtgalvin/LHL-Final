@@ -12,7 +12,7 @@ data = require ( './google-places-supermarket-raw.js');
 //   mask_stock: number;
 // }
 
-const markers = [];
+const markers = {};
 let id = 1;
 for(result of data.results){
   const marker = {};
@@ -27,7 +27,7 @@ for(result of data.results){
   marker.mask_stock = Math.floor(Math.random() * 3);
 
 
-  markers.push(marker);
+  markers[id] = marker;
   id++;
 }
 

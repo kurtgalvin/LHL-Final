@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS commodities CASCADE;
+CREATE TABLE commodities (
+  id SERIAL PRIMARY KEY NOT NULL,
+  name VARCHAR(255),
+  icon_url TEXT NOT NULL
+);
