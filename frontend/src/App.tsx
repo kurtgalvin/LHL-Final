@@ -37,7 +37,7 @@ function App() {
 
   return (
     <div className="App">
-      <Paper>
+      <Paper className="Paper" elevation={3}>
         <Tabs 
           value={route}
           indicatorColor="primary"
