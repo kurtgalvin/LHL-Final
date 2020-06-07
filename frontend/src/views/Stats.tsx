@@ -22,13 +22,18 @@ interface IProps {
 
 }
 
+const randomColour = () => {
+  const random = () => Math.floor(Math.random() * 255)
+  return `rgb(${random()}, ${random()}, ${random()})`
+}
+
 const StatsView = ({}: IProps) => {
   const [provinces, setProvinces] = useState<string[]>(["British Columbia", "Alberta"])
   const [lines, setLines] = useState<React.ReactElement[]>([])
 
   useEffect(() => {
     setLines(provinces.map((p) => {
-      return <Line type="monotone" dataKey={`${(provincesCode as any)[p]}_confirmed`} stroke="#8884d8" dot={false} strokeWidth={3} />
+      return <Line type="monotone" dataKey={`${(provincesCode as any)[p]}_confirmed`} stroke={randomColour()} dot={false} strokeWidth={3} />
     }))
   }, [provinces])
 
@@ -41,7 +46,7 @@ const StatsView = ({}: IProps) => {
           {lines}
           <Brush dataKey="date" startIndex={50}>
             <LineChart>
-              {lines.map(line => React.cloneElement(line, {stroke: "#82ca9d"}))}
+              {lines.map(line => React.cloneElement(line, {stroke: "rgb(82, 189, 242)"}))}
             </LineChart>
           </Brush>
         </LineChart>
