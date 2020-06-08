@@ -19,13 +19,39 @@ module.exports = (db: any) => {
       for(const record of data.rows) {
         output[record.id] = {...record, lat: Number(record.lat), lng: Number(record.lng)}; 
       }
-      console.log(output);
       res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify({data:output}));
     
     })                  
                   
                   
+  });
+
+  router.post("/stockUpdate/:markerId", (req: any, res: Response) => {
+    const markerId = req.params.markerId;
+    let commodityId;
+    let stockLevel;
+    let stockLevelId;
+    switch(Object.keys(req.body)[0]) {
+      case 'tp_stock': 
+        commodityId = 1;
+        stockLevel = req.body.tp_stock;
+        break;
+      case 'hs_stock':
+        commodityId = 2;
+        stockLevel = req.body.hs_stock;
+        break;
+      case 'mask_stock':
+        commodityId = 3;
+        stockLevel = req.body.mask_stock;
+        break;
+    }
+
+    stockLevelId = stockLevel=== 'Unknown' ? 1 : stockLevel === 'Out of Stock' ? 2 : 3;
+    const queryParams = [markerId, commodityId, stockLevelId]
+    const query = "INSERT INTO commodity_updates (store, commodity, stock_level) VALUES($1, $2, $3) "
+    db.query(query, queryParams)
+    .then((data: any) => {});
   });
 
  
