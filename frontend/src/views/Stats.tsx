@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { ResponsiveContainer, LineChart, YAxis, Tooltip, Brush, Line } from 'recharts';
-import { ButtonGroup, Button, Tooltip as MaterialTooltip, Paper, LinearProgress } from '@material-ui/core'
+import { ResponsiveContainer, LineChart, Tooltip, Brush, Line } from 'recharts';
+import { Button, Tooltip as MaterialTooltip, Paper, LinearProgress } from '@material-ui/core'
 
 import './Stats.scss'
 import canadaData from '../data/canada.json'
+import RadarChart from '../components/charts/RadarChart'
 
 const provincesCode = {
   "Alberta": "AB",
@@ -73,10 +74,8 @@ const StatsView = ({}: IProps) => {
       </Paper>
 
       <Paper className="Chart" elevation={3}>
-        {/* <h1>Provinces</h1> */}
-        <ResponsiveContainer width="100%" height={300} >
+        <ResponsiveContainer width="100%" height="100%" >
           <LineChart data={canadaData} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
-            {/* <YAxis/> */}
             <Tooltip/>
             {lines}
             <Brush dataKey="date" startIndex={50}>
@@ -86,6 +85,10 @@ const StatsView = ({}: IProps) => {
             </Brush>
           </LineChart>
         </ResponsiveContainer>
+      </Paper>
+
+      <Paper className="RadarChart" elevation={3}>
+        <RadarChart />
       </Paper>
     </div>
   )

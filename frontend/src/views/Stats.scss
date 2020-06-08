@@ -2,11 +2,13 @@
     display: grid;
     justify-items: center;
     margin: 1%;
-    gap: 2%;
+    column-gap: 1%;
+    row-gap: 2%;
     grid-template-columns: 1fr 2fr;
     grid-template-rows: 1fr 1fr;
     grid-template-areas: 
-        "ButtonGroup Chart";
+        "ButtonGroup Chart"
+        "RadarChart .";
 
     .ButtonGroup {
         grid-area: ButtonGroup;
@@ -33,5 +35,10 @@
         width: 100%;
         padding: 1%;
         box-sizing: border-box;
+    }
+
+    .RadarChart {
+        grid-area: RadarChart;
+        width: 100%;
     }
 }
