@@ -1,20 +1,37 @@
 .Stats {
     display: grid;
     justify-items: center;
-    margin: 20px;
-    grid-template-columns: 2% 1fr 1fr 2%;
-    grid-template-rows: 40px 1fr 1fr;
+    margin: 1%;
+    gap: 2%;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 1fr;
     grid-template-areas: 
-        ". ButtonGroup ButtonGroup ."
-        ". Chart Chart .";
+        "ButtonGroup Chart";
 
     .ButtonGroup {
         grid-area: ButtonGroup;
+        width: 100%;
+        padding: 2%;
+        box-sizing: border-box;
+        display: grid;
+        gap: 2%;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+
+        button .MuiButton-label {
+            display: flex;
+            flex-direction: column;
+
+            .Progress {
+                width: 100%;
+            }
+        }
     }
 
     .Chart {
         grid-area: Chart;
         width: 100%;
-        text-align: center;
+        padding: 1%;
+        box-sizing: border-box;
     }
 }
