@@ -49,13 +49,13 @@ function MapContainer() {
     [index: string]: string | number;
     id: number;
     name: string;
-    google_id: string;
+    google_place_id: string;
     type: string;
     lat: number;
     lng: number;
-    tp_stock: number;
-    hs_stock: number;
-    mask_stock: number;
+    tp_stock: string;
+    hs_stock: string;
+    mask_stock: string;
   }
 
   interface IMarkerDictionary {
@@ -63,11 +63,34 @@ function MapContainer() {
 
   }
 
- 
-
   const {isLoaded, loadError} = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY, libraries});
   const [markers, setMarkers] = React.useState<IMarkerDictionary>({});
   const [selected, setSelected] = React.useState<IMarker | null>(null);
+
+  const selectMarker = function(placeId: string, address: string, result: any) {
+    
+    console.log(Object.keys(markers));
+    if(markers[placeId]) {
+      setSelected(markers[placeId]);
+    } else {
+      const marker: IMarker= {
+        id: 0, 
+        name: address.split(',')[0],
+        google_place_id: placeId,
+        type: result.types.find((e:string) => e.includes('pharmacy')) ? 'pharmacy' : 'supermarket',
+        lat: result.geometry.location.lat(),
+        lng: result.geometry.location.lng(),
+        tp_stock: "Unknown",
+        hs_stock: "Unknown",
+        mask_stock: "Unknown"
+      };
+      console.log(marker);
+      //setMarkers({...markers, [placeId]: marker});
+      console.log(markers);
+      setSelected(marker);
+      
+    }
+  }
 
   React.useEffect( () => {
     axios.get("/api/markers")
@@ -87,15 +110,15 @@ function MapContainer() {
   const setStock = function(commodity: string, inStock?: boolean) {
     if(selected){
       if(inStock) {
-        setMarkers({...markers, [selected.id]:{...selected, [commodity]: "In Stock" } });
+        setMarkers({...markers, [selected.google_place_id]:{...selected, [commodity]: "In Stock" } });
         selected[commodity] = "In Stock";
         axios.post(`/api/markers/stockUpdate/${selected.id}`, {[commodity]: "In Stock"});
       } else if (inStock === undefined) {
-        setMarkers({...markers, [selected.id]:{...selected, [commodity]: "Unknown" } });
+        setMarkers({...markers, [selected.google_place_id]:{...selected, [commodity]: "Unknown" } });
         selected[commodity] = "Unknown";
         axios.post(`/api/markers/stockUpdate/${selected.id}`, {[commodity]: "Unknown"});
       } else {
-        setMarkers({...markers, [selected.id]:{...selected, [commodity]: "Out of Stock" } });
+        setMarkers({...markers, [selected.google_place_id]:{...selected, [commodity]: "Out of Stock" } });
         selected[commodity] = "Out of Stock";
         axios.post(`/api/markers/stockUpdate/${selected.id}`, {[commodity]: "Out of Stock"});
       }
@@ -110,7 +133,7 @@ function MapContainer() {
   return (
     <div>
       <Locate panTo={panTo}/>
-      <Search panTo={panTo}/>
+      <Search panTo={panTo} selectMarker={selectMarker}/>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
@@ -148,6 +171,7 @@ function MapContainer() {
           >
               <div>
                 <h4>{selected.name}</h4>
+                <h6>{selected.google_place_id}</h6>
                 <table>
                   <tbody>
                     <tr>

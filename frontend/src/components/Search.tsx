@@ -2,10 +2,11 @@ import React from 'react';
 import usePlacesAutocomplete, {getGeocode, getLatLng} from "use-places-autocomplete";
 import {Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption} from "@reach/combobox";
 import "@reach/combobox/styles.css";
-type SearchProps = {panTo: ({lat, lng}:any)=> void}
-export default function Search ({panTo}:SearchProps) {
+type SearchProps = {panTo: ({lat, lng}:any)=> void, selectMarker: (place_id:string, address: string, result: any) => void }
+export default function Search ({panTo, selectMarker}:SearchProps) {
   const {ready, value, suggestions: {status, data}, setValue, clearSuggestions} = usePlacesAutocomplete({
     requestOptions: {
+      types: ['establishment'],
       location: {
         lat: () => 49.282730,
         lng: ()=> -123.120735,
@@ -18,20 +19,23 @@ export default function Search ({panTo}:SearchProps) {
           return {lat: 49.282730, lng: -123.120735};
         }
       },
-      radius: 15 * 1000
-    }
+      radius: 10 * 1000
+    },
   });
 
   return (
     <Combobox 
         onSelect= { async (address) => {
           setValue(address, false);
+          console.log(address);
           clearSuggestions();
           try{
             const results = await getGeocode({address});
+            console.log(results[0]);
             const place_id = results[0].place_id;
-            console.log(place_id);
+            selectMarker(place_id, address, results[0]);
             const {lat, lng} = await getLatLng(results[0]);
+
             panTo({lat, lng});
           }catch (error) {
             console.log(error);
@@ -45,13 +49,12 @@ export default function Search ({panTo}:SearchProps) {
         placeholder="Enter a location"
       />
       <ComboboxPopover >
-        {status === "OK" &&
-          data.map(({id, description}) => 
-            <ComboboxOption key={id} value={description} />
-          )
-        
-        }
-
+        <ComboboxList>         {status === "OK" &&
+            data.map(({id, description}) => 
+              <ComboboxOption key={id} value={description} />
+            )}
+        </ComboboxList>
+ 
       </ComboboxPopover>
 
     </Combobox>);
