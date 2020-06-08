@@ -7,39 +7,44 @@ import  CheckIcon from '@material-ui/icons/Check';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import axios from 'axios';
 
+import Search from './Search';
+
+const libraries = ["places"];
+
+const containerStyle = {
+  width: '60vw',
+  height: '60vh',
+  display: 'inline-block',
+  'borderRadius': '15px',
+  'boxShadow': '5px 10px #888888'
+
+};
+
+const center = {
+  lat: 49.282730,
+  lng: -123.120735
+};
+
+const noPoi: any = [ //google types disagreement
+  {
+      featureType: "poi",
+      stylers: [
+        { visibility: "off" }
+      ]   
+    }
+  ];
+
+const mapOptions = {
+  disableDefaultUI: true,
+  zoomControl: true,
+  styles: noPoi
+}
+
+const markerCluseterOptions = { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'};
 
 function MapContainer() {
 
-  const containerStyle = {
-    width: '60vw',
-    height: '60vh',
-    display: 'inline-block',
-    'borderRadius': '15px',
-    'boxShadow': '5px 10px #888888'
   
-  };
-  
-  const center = {
-    lat: 49.282730,
-    lng: -123.120735
-  };
-  
-  const noPoi: any = [ //google types disagreement
-    {
-        featureType: "poi",
-        stylers: [
-          { visibility: "off" }
-        ]   
-      }
-    ];
-  
-  const mapOptions = {
-    disableDefaultUI: true,
-    zoomControl: true,
-    styles: noPoi
-  }
-  
-  const markerCluseterOptions = { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'};
   interface IMarker {
     [index: string]: string | number;
     id: number;
@@ -58,7 +63,9 @@ function MapContainer() {
 
   }
 
-  const {isLoaded, loadError} = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY });
+ 
+
+  const {isLoaded, loadError} = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY, libraries});
   const [markers, setMarkers] = React.useState<IMarkerDictionary>({});
   const [selected, setSelected] = React.useState<IMarker | null>(null);
 
@@ -103,6 +110,7 @@ function MapContainer() {
   return (
     <div>
       <Locate panTo={panTo}/>
+      <Search panTo={panTo}/>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
