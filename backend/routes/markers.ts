@@ -17,9 +17,9 @@ module.exports = (db: any) => {
     .then((data: any) => {
       const output: {[index: string]: string | number} = {};
       for(const record of data.rows) {
-        output[record.id] = record; 
+        output[record.id] = {...record, lat: Number(record.lat), lng: Number(record.lng)}; 
       }
-
+      console.log(output);
       res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify({data:output}));
     
