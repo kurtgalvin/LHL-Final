@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ArticleComponent from '../components/ArticleComponent'
 import socketIOClient from "socket.io-client";
+import TweetComponent from '../components/TweetComponent';
 const NewsAPI = require('newsapi');
 let newsapi = new NewsAPI(process.env.REACT_APP_new_NEWSAPI);
 
 
 
-function Tweetlist() {
-  // const [items, setItems] = useState([]);
+function Newslist() {
   const [articles, setArticles] = useState([]);
   // try {
   useEffect(() => {
@@ -35,7 +35,7 @@ function Tweetlist() {
 
 };
 
-function Tweetlist2() {
+function Tweetlist() {
   const [items, setItems] = useState<any>([]);
   useEffect(() => {
     const socket = socketIOClient('/');
@@ -45,7 +45,10 @@ function Tweetlist2() {
       socket.on("tweets", (data : any) => {
         console.info(data);
         let newList = [data].concat(items.slice(0, 15));
-        setItems ({items: newList});
+        setItems((oldState: any) => {
+          // {items: newList});
+          return [...oldState, data].slice(0, 15)
+        });
       });
     });
     socket.on('disconnect', () => {
@@ -55,7 +58,11 @@ function Tweetlist2() {
     });
   }, [])
   console.log(items)
-  return <div></div>
+  return <div>
+    {items.map((tweet: any, index: any) => (
+      <TweetComponent key={index} data={tweet} />
+    ))}
+  </div>
 
 };
 
@@ -68,8 +75,9 @@ const NewsView: React.FC<IProps> = () => {
   return (
     <div>
       News
+      <Newslist/>
       <Tweetlist/>
-      <Tweetlist2/>
+      
     </div>
   )
 }
