@@ -12,12 +12,12 @@ function Newslist() {
   // try {
   useEffect(() => {
     newsapi.v2.topHeadlines({
-      // sources: 'bbc-news',
-      q: 'covid',
+      // sources: 'vancouver sun',
+      q: 'covid-19',
       category: 'health',
       language: 'en',
       country: 'ca',
-      pageSize: '5'
+      pageSize: '6'
     }).then((response : any) => {
        setArticles(response.articles);
     }).catch((err: Error) => {

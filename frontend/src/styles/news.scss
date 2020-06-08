@@ -1,21 +1,32 @@
-.desc {
-  width: 335px;
-  height: 70px;
-}
+
 
 .Article {
-  width :335px;
+  width :325px;
   border: solid;
   border-color: rgb(192, 187, 187);
   margin-top: 25px;
   border-radius: 15px;
-}
-
-.date {
-  width: 335px;
+  float: left;
+  margin: 20px;
+    //   align-items: center;
+    // flex-direction: column
+  
 }
 
 img {
-  width: 335px;
+  height: 200px;
+  width: 325px;
   border-radius: 12px 12px 0px 0px;
 }
+
+.desc {
+  width: 325px;
+  height: 70px;
+  
+}
+
+.date {
+  width: 325px;
+  
+}
+
