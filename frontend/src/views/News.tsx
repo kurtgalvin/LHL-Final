@@ -74,11 +74,9 @@ interface IProps {
 const NewsView: React.FC<IProps> = () => {
   return (
     <div>
-      News
-      <Newslist/>
-      <Tweetlist/>
-      
+      <Newslist/><Tweetlist/>
     </div>
+    
   )
 }
 
