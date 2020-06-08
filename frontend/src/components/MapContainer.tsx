@@ -40,7 +40,7 @@ const mapOptions = {
   styles: noPoi
 }
 
-const markerCluseterOptions = { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'};
+const markerClustererOptions = { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'};
 
 function MapContainer() {
 
@@ -120,7 +120,7 @@ function MapContainer() {
       >
 
 
-        <MarkerClusterer options={markerCluseterOptions}>
+        <MarkerClusterer options={markerClustererOptions}>
           {clusterer =>
             Object.keys(markers).map(markerKey => (
               <Marker 
