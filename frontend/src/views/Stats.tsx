@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ResponsiveContainer, LineChart, YAxis, Tooltip, Brush, Line } from 'recharts';
-import { ButtonGroup, Button } from '@material-ui/core'
+import { ButtonGroup, Button, Tooltip as MaterialTooltip } from '@material-ui/core'
 
 import './Stats.scss'
 import canadaData from '../data/canada.json'
@@ -30,7 +30,7 @@ const randomColour = () => {
 }
 
 const StatsView = ({}: IProps) => {
-  const [provinces, setProvinces] = useState<string[]>(["British Columbia", "Alberta", "Nova Scotia"])
+  const [provinces, setProvinces] = useState<string[]>(["Alberta", "British Columbia",  "Ontario", "Quebec"])
   const [lines, setLines] = useState<React.ReactElement[]>([])
 
   useEffect(() => {
@@ -41,30 +41,36 @@ const StatsView = ({}: IProps) => {
 
   return (
     <div className="Stats">
-      <ButtonGroup className="ButtonGroup" orientation="vertical">
+      <ButtonGroup color="primary" className="ButtonGroup">
         {Object.keys(provincesCode).map(p => {
           return (
-            <Button 
-              onClick={() => setProvinces(pArr => [...pArr, p])} 
-              variant={provinces.includes(p) ? 'contained' : 'outlined'}
-            >
-              {p}
-            </Button>
+            <MaterialTooltip title={p}>
+              <Button 
+                onClick={() => setProvinces(pArr => pArr.includes(p) ? pArr.filter(i => i !== p) : [...pArr, p])} 
+                variant={provinces.includes(p) ? 'contained' : 'outlined'}
+              >
+                {(provincesCode as any)[p]}
+              </Button>
+            </MaterialTooltip>
           )
         })}
       </ButtonGroup>
-      <ResponsiveContainer width="45%" height={300} >
-        <LineChart data={canadaData}>
-          <YAxis/>
-          <Tooltip/>
-          {lines}
-          <Brush dataKey="date" startIndex={50}>
-            <LineChart>
-              {lines.map(line => React.cloneElement(line, {stroke: "rgb(82, 189, 242)"}))}
-            </LineChart>
-          </Brush>
-        </LineChart>
-      </ResponsiveContainer>
+
+      <div className="Chart">
+        {/* <h1>Provinces</h1> */}
+        <ResponsiveContainer width="100%" height={300} >
+          <LineChart data={canadaData}>
+            {/* <YAxis/> */}
+            <Tooltip/>
+            {lines}
+            <Brush dataKey="date" startIndex={50}>
+              <LineChart>
+                {lines.map(line => React.cloneElement(line, {stroke: "rgb(82, 189, 242)"}))}
+              </LineChart>
+            </Brush>
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   )
 }
