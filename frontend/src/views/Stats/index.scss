@@ -7,7 +7,7 @@
     grid-template-columns: 1fr 2fr;
     grid-template-rows: 1fr 1fr;
     grid-template-areas: 
-        "ButtonGroup Chart"
+        "ButtonGroup LineChart"
         "RadarChart .";
 
     .ButtonGroup {
@@ -30,8 +30,8 @@
         }
     }
 
-    .Chart {
-        grid-area: Chart;
+    .LineChart {
+        grid-area: LineChart;
         width: 100%;
         padding: 1%;
         box-sizing: border-box;

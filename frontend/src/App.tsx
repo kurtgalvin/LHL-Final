@@ -3,7 +3,7 @@ import { Paper, Tabs, Tab } from '@material-ui/core'
 
 import './App.scss';
 import MapView from './views/Map';
-import StatsView from './views/Stats';
+import StatsView from './views/Stats/';
 import NewsView from './views/News';
 
 enum Routes {
