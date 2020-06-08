@@ -9,7 +9,6 @@ import axios from 'axios';
 
 
 function MapContainer() {
-  const stock = ["Unknown", "Out of Stock", "In Stock"]
 
   const containerStyle = {
     width: '60vw',
@@ -81,14 +80,17 @@ function MapContainer() {
   const setStock = function(commodity: string, inStock?: boolean) {
     if(selected){
       if(inStock) {
-        setMarkers({...markers, [selected.id]:{...selected, [commodity]: 2 } });
+        setMarkers({...markers, [selected.id]:{...selected, [commodity]: "In Stock" } });
         selected[commodity] = "In Stock";
+        axios.post(`/api/markers/stockUpdate/${selected.id}`, {[commodity]: "In Stock"});
       } else if (inStock === undefined) {
-        setMarkers({...markers, [selected.id]:{...selected, [commodity]: 0 } });
+        setMarkers({...markers, [selected.id]:{...selected, [commodity]: "Unknown" } });
         selected[commodity] = "Unknown";
+        axios.post(`/api/markers/stockUpdate/${selected.id}`, {[commodity]: "Unknown"});
       } else {
-        setMarkers({...markers, [selected.id]:{...selected, [commodity]: 1 } });
+        setMarkers({...markers, [selected.id]:{...selected, [commodity]: "Out of Stock" } });
         selected[commodity] = "Out of Stock";
+        axios.post(`/api/markers/stockUpdate/${selected.id}`, {[commodity]: "Out of Stock"});
       }
     }
   }
