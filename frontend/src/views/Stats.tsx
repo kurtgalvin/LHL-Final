@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ResponsiveContainer, LineChart, YAxis, Tooltip, Brush, Line } from 'recharts';
+import { ButtonGroup, Button } from '@material-ui/core'
 
+import './Stats.scss'
 import canadaData from '../data/canada.json'
 
 const provincesCode = {
@@ -28,7 +30,7 @@ const randomColour = () => {
 }
 
 const StatsView = ({}: IProps) => {
-  const [provinces, setProvinces] = useState<string[]>(["British Columbia", "Alberta"])
+  const [provinces, setProvinces] = useState<string[]>(["British Columbia", "Alberta", "Nova Scotia"])
   const [lines, setLines] = useState<React.ReactElement[]>([])
 
   useEffect(() => {
@@ -39,6 +41,18 @@ const StatsView = ({}: IProps) => {
 
   return (
     <div className="Stats">
+      <ButtonGroup className="ButtonGroup" orientation="vertical">
+        {Object.keys(provincesCode).map(p => {
+          return (
+            <Button 
+              onClick={() => setProvinces(pArr => [...pArr, p])} 
+              variant={provinces.includes(p) ? 'contained' : 'outlined'}
+            >
+              {p}
+            </Button>
+          )
+        })}
+      </ButtonGroup>
       <ResponsiveContainer width="45%" height={300} >
         <LineChart data={canadaData}>
           <YAxis/>
