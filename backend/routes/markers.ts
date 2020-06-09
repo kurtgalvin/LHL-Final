@@ -17,7 +17,7 @@ module.exports = (db: any) => {
     .then((data: any) => {
       const output: {[index: string]: string | number} = {};
       for(const record of data.rows) {
-        output[record.id] = {...record, lat: Number(record.lat), lng: Number(record.lng)}; 
+        output[record.google_place_id] = {...record, lat: Number(record.lat), lng: Number(record.lng)}; 
       }
       res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify({data:output}));
@@ -55,14 +55,17 @@ module.exports = (db: any) => {
   });
 
  
-// UNTESTED & Unfinished  -- MAY NOT ACTUALLY NEED
-  router.post("/", (req: any, res: Response) => {
+  router.post("/", (req: any, res: any) => {
     
     const queryParams = [req.body.name, req.body.google_place_id, req.body.type, req.body.lat, req.body.lng];
   
     db.query("INSERT INTO stores (name, google_place_id, type, lat, lng) VALUES($1, $2, $3, $4, $5) RETURNING id ", queryParams)
-    .then((data: any) => 
-      console.log(data.rows[0].id)
+    .then((data: any) => {
+      const id = data.rows[0].id;
+      console.log(id);
+      db.query("INSERT INTO commodity_updates (store, commodity, stock_level) VALUES($1, 1, 1), ($1,2,1), ($1, 3, 1)", [id])
+      .then( res.json({id}));
+    }
       )
 
 

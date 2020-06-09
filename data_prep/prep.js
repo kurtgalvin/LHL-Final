@@ -18,7 +18,7 @@ for(result of data.results){
   const marker = {};
   marker.id = id;
   marker.name = result.name;
-  marker.google_id = result.id;
+  marker.google_id = result.place_id;
   marker.type = 'supermarket';
   marker.lat = result.geometry.location.lat;
   marker.lng = result.geometry.location.lng;

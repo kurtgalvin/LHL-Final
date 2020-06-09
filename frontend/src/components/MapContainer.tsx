@@ -7,50 +7,55 @@ import  CheckIcon from '@material-ui/icons/Check';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import axios from 'axios';
 
+import Search from './Search';
+
+const libraries = ["places"];
+
+const containerStyle = {
+  width: '60vw',
+  height: '60vh',
+  display: 'inline-block',
+  'borderRadius': '15px',
+  'boxShadow': '5px 10px #888888'
+
+};
+
+const center = {
+  lat: 49.282730,
+  lng: -123.120735
+};
+
+const noPoi: any = [ //google types disagreement
+  {
+      featureType: "poi",
+      stylers: [
+        { visibility: "off" }
+      ]   
+    }
+  ];
+
+const mapOptions = {
+  disableDefaultUI: true,
+  zoomControl: true,
+  styles: noPoi
+}
+
+const markerClustererOptions = { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'};
 
 function MapContainer() {
 
-  const containerStyle = {
-    width: '60vw',
-    height: '60vh',
-    display: 'inline-block',
-    'borderRadius': '15px',
-    'boxShadow': '5px 10px #888888'
   
-  };
-  
-  const center = {
-    lat: 49.282730,
-    lng: -123.120735
-  };
-  
-  const noPoi: any = [ //google types disagreement
-    {
-        featureType: "poi",
-        stylers: [
-          { visibility: "off" }
-        ]   
-      }
-    ];
-  
-  const mapOptions = {
-    disableDefaultUI: true,
-    zoomControl: true,
-    styles: noPoi
-  }
-  
-  const markerCluseterOptions = { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'};
   interface IMarker {
     [index: string]: string | number;
     id: number;
     name: string;
-    google_id: string;
+    google_place_id: string;
     type: string;
     lat: number;
     lng: number;
-    tp_stock: number;
-    hs_stock: number;
-    mask_stock: number;
+    tp_stock: string;
+    hs_stock: string;
+    mask_stock: string;
   }
 
   interface IMarkerDictionary {
@@ -58,9 +63,33 @@ function MapContainer() {
 
   }
 
-  const {isLoaded, loadError} = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY });
+  const {isLoaded, loadError} = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY, libraries});
   const [markers, setMarkers] = React.useState<IMarkerDictionary>({});
   const [selected, setSelected] = React.useState<IMarker | null>(null);
+
+  const selectMarker = async function(placeId: string, address: string, result: any)  {
+    
+    if(markers[placeId]) {
+      setSelected(markers[placeId]);
+    } else {
+      const marker: IMarker= {
+        id: 0, 
+        name: address.split(',')[0],
+        google_place_id: placeId,
+        type: result.types.find((e:string) => e.includes('pharmacy')) ? 'pharmacy' : 'supermarket', // TODO get it detecting pharmacy
+        lat: result.geometry.location.lat(),
+        lng: result.geometry.location.lng(),
+        tp_stock: "Unknown",
+        hs_stock: "Unknown",
+        mask_stock: "Unknown"
+      };
+      const res = await axios.post('/api/markers', {name: marker.name, google_place_id: marker.google_place_id, lat: marker.lat, lng: marker.lng, type: marker.type });
+      marker.id = res.data.id;
+      setMarkers({...markers, [placeId]: marker});
+      setSelected(marker);
+      
+    }
+  }
 
   React.useEffect( () => {
     axios.get("/api/markers")
@@ -80,15 +109,15 @@ function MapContainer() {
   const setStock = function(commodity: string, inStock?: boolean) {
     if(selected){
       if(inStock) {
-        setMarkers({...markers, [selected.id]:{...selected, [commodity]: "In Stock" } });
+        setMarkers({...markers, [selected.google_place_id]:{...selected, [commodity]: "In Stock" } });
         selected[commodity] = "In Stock";
         axios.post(`/api/markers/stockUpdate/${selected.id}`, {[commodity]: "In Stock"});
       } else if (inStock === undefined) {
-        setMarkers({...markers, [selected.id]:{...selected, [commodity]: "Unknown" } });
+        setMarkers({...markers, [selected.google_place_id]:{...selected, [commodity]: "Unknown" } });
         selected[commodity] = "Unknown";
         axios.post(`/api/markers/stockUpdate/${selected.id}`, {[commodity]: "Unknown"});
       } else {
-        setMarkers({...markers, [selected.id]:{...selected, [commodity]: "Out of Stock" } });
+        setMarkers({...markers, [selected.google_place_id]:{...selected, [commodity]: "Out of Stock" } });
         selected[commodity] = "Out of Stock";
         axios.post(`/api/markers/stockUpdate/${selected.id}`, {[commodity]: "Out of Stock"});
       }
@@ -103,6 +132,7 @@ function MapContainer() {
   return (
     <div>
       <Locate panTo={panTo}/>
+      <Search panTo={panTo} selectMarker={selectMarker}/>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
@@ -112,7 +142,7 @@ function MapContainer() {
       >
 
 
-        <MarkerClusterer options={markerCluseterOptions}>
+        <MarkerClusterer options={markerClustererOptions}>
           {clusterer =>
             Object.keys(markers).map(markerKey => (
               <Marker 
