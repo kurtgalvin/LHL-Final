@@ -1,5 +1,7 @@
-import React from 'react'
-import MapContainer from '../components/MapContainer'
+import React from 'react';
+import MapContainer from '../components/MapContainer';
+import { Paper } from '@material-ui/core';
+import '../styles/map.scss';
 
 interface IProps {
 
@@ -7,9 +9,8 @@ interface IProps {
 
 const MapView: React.FC<IProps> = () => {
   return (
-    <div className="map">   
-    <MapContainer />
-  </div>
+   <MapContainer />
+
   )
 }
 

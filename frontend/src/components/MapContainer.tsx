@@ -1,22 +1,24 @@
 import React from 'react';
 import { GoogleMap, useLoadScript, Marker, InfoWindow, MarkerClusterer } from '@react-google-maps/api';
 import Locate from './Locate';
-import {IconButton} from '@material-ui/core';
+import {Paper, IconButton} from '@material-ui/core';
+import {ToggleButtonGroup, ToggleButton} from '@material-ui/lab';
 import  ClearIcon from '@material-ui/icons/Clear';
 import  CheckIcon from '@material-ui/icons/Check';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import axios from 'axios';
+import useToggleArray from '../hooks/useToggleArray';
 
 import Search from './Search';
 
 const libraries = ["places"];
 
 const containerStyle = {
-  width: '60vw',
-  height: '60vh',
+  width: '100%',
+  height: '100%',
   display: 'inline-block',
-  'borderRadius': '15px',
-  'boxShadow': '5px 10px #888888'
+  // 'borderRadius': '15px',
+  // 'boxShadow': '5px 10px #888888'
 
 };
 
@@ -40,7 +42,7 @@ const mapOptions = {
   styles: noPoi
 }
 
-const markerClustererOptions = { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'};
+const markerClustererOptions = { imagePath: '/markerClusterer/m'};
 
 function MapContainer() {
 
@@ -66,6 +68,34 @@ function MapContainer() {
   const {isLoaded, loadError} = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY, libraries});
   const [markers, setMarkers] = React.useState<IMarkerDictionary>({});
   const [selected, setSelected] = React.useState<IMarker | null>(null);
+  const [filters, setFilters] = useToggleArray([]);
+  
+
+  const filterResults = function () {
+    let results = Object.keys(markers);
+
+    if(filters.includes("tp")) {
+      results = applyFilter(results, 'tp');
+    }
+    if(filters.includes("hs")) {
+      results = applyFilter(results, "hs");
+    }
+    if(filters.includes("mask")){
+      results = applyFilter(results, "mask");
+    }
+    return results;
+  }
+
+  const applyFilter = function(markerKeys:string[], filter: string) {
+    const result = [];
+
+    for(const key of markerKeys) {
+      if(markers[key][filter+'_stock'] === "In Stock") {
+        result.push(key);
+      }
+    }
+    return result;
+  }
 
   const selectMarker = async function(placeId: string, address: string, result: any)  {
     
@@ -101,7 +131,7 @@ function MapContainer() {
   const panTo = React.useCallback(({lat,lng}) => {
     if (mapRef.current) {
       mapRef.current.panTo({lat, lng});
-      (mapRef.current as any).setZoom(14); //horrible hack but setZoom is undefined on GoogleMap types - though it still works! 
+      (mapRef.current as any).setZoom(16); //horrible hack but setZoom is undefined on GoogleMap types - though it still works! 
     }
   }, [])
 
@@ -130,9 +160,20 @@ function MapContainer() {
   if (!isLoaded) return <div>"Loading"</div>;
    
   return (
-    <div>
+    <Paper className="map-wrapper" elevation={3}>
       <Locate panTo={panTo}/>
       <Search panTo={panTo} selectMarker={selectMarker}/>
+      <ToggleButtonGroup className="filters" aria-label="filters" orientation="vertical">
+        <ToggleButton  onClick={() => setFilters("tp")} selected={filters.includes("tp")} aria-label="has-toilet-paper">
+          <img src="/tp.svg" className="icon"/>
+        </ToggleButton>
+        <ToggleButton onClick={() => setFilters("hs")} selected={filters.includes("hs")} aria-label="has-hand-sanitizer">
+          <img src="/hand-sanitizer.svg" className="icon"/>
+        </ToggleButton>
+        <ToggleButton onClick={() => setFilters("mask")} selected={filters.includes("mask")} aria-label="has-masks">
+          <img src="/mask.svg" className="icon"/>
+        </ToggleButton>
+      </ToggleButtonGroup>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
@@ -144,7 +185,7 @@ function MapContainer() {
 
         <MarkerClusterer options={markerClustererOptions}>
           {clusterer =>
-            Object.keys(markers).map(markerKey => (
+            filterResults().map(markerKey => (
               <Marker 
               key={markerKey} 
               position= {{lat: markers[markerKey].lat, lng: markers[markerKey].lng}} 
@@ -201,7 +242,7 @@ function MapContainer() {
            </InfoWindow>) : null}
         
       </GoogleMap>
-      </div>
+      </Paper>
   )
 }
 

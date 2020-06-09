@@ -24,35 +24,38 @@ export default function Search ({panTo, selectMarker}:SearchProps) {
   });
 
   return (
-    <Combobox 
-        onSelect= { async (address) => {
-          setValue(address, false);
-          clearSuggestions();
-          try{
-            const results = await getGeocode({address});
-            const place_id = results[0].place_id;
-            await selectMarker(place_id, address, results[0]);
-            const {lat, lng} = await getLatLng(results[0]);
-            panTo({lat, lng});
-          }catch (error) {
-            console.log(error);
-          }
-        
-        }}>
-      <ComboboxInput 
-        value={value} 
-        onChange={(e:Event)=> { if(e.target) setValue((e.target as HTMLTextAreaElement).value)}}
-        disabled={!ready}
-        placeholder="Enter a location"
-      />
-      <ComboboxPopover >
-        <ComboboxList>         {status === "OK" &&
-            data.map(({id, description}) => 
-              <ComboboxOption key={id} value={description} />
-            )}
-        </ComboboxList>
- 
-      </ComboboxPopover>
+    <div className="search">
+      <Combobox 
+          onSelect= { async (address) => {
+            setValue(address, false);
+            clearSuggestions();
+            try{
+              const results = await getGeocode({address});
+              const place_id = results[0].place_id;
+              await selectMarker(place_id, address, results[0]);
+              const {lat, lng} = await getLatLng(results[0]);
+              panTo({lat, lng});
+              setValue("", false);
+            }catch (error) {
+              console.log(error);
+            }
+          
+          }}>
+        <ComboboxInput 
+          value={value} 
+          onChange={(e:Event)=> { if(e.target) setValue((e.target as HTMLTextAreaElement).value)}}
+          disabled={!ready}
+          placeholder="Enter a location"
+        />
+        <ComboboxPopover >
+          <ComboboxList>         {status === "OK" &&
+              data.map(({id, description}) => 
+                <ComboboxOption key={id} value={description} />
+              )}
+          </ComboboxList>
+  
+        </ComboboxPopover>
 
-    </Combobox>);
+      </Combobox>
+      </div>);
 }
