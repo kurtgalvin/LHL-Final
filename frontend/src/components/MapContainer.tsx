@@ -14,8 +14,8 @@ import Search from './Search';
 const libraries = ["places"];
 
 const containerStyle = {
-  width: '90vw',
-  height: '90vh',
+  width: '100%',
+  height: '100%',
   display: 'inline-block',
   // 'borderRadius': '15px',
   // 'boxShadow': '5px 10px #888888'
