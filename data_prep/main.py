@@ -73,7 +73,6 @@ def canada(df):
 def national(df):
     countries = ['Canada', 'Austria', 'US']
     national_data = df.groupby(['date', 'country', 'month', 'day', 'year'], as_index=False).sum()
-    # print(sorted(set(national_data.country)))
 
     national_df = pd.DataFrame(columns=['month', 'day', 'year', 'date'])
     for c in countries:
@@ -88,7 +87,6 @@ def national(df):
         }, inplace=True)
         
         national_df = national_df.merge(min_data, on=['month', 'day', 'year', 'date'], how='outer')
-    # print(national_data.loc[national_data['country'] == 'Canada'])
     national_df = national_df.sort_values(by=['month', 'day']).fillna(method='ffill')
     national_df.to_json(f'{DATA_PATH}/national.json', orient='records')
     return
