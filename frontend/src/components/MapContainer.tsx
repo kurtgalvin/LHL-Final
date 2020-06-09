@@ -1,7 +1,7 @@
 import React from 'react';
 import { GoogleMap, useLoadScript, Marker, InfoWindow, MarkerClusterer } from '@react-google-maps/api';
 import Locate from './Locate';
-import {IconButton} from '@material-ui/core';
+import {Paper, IconButton} from '@material-ui/core';
 import {ToggleButtonGroup, ToggleButton} from '@material-ui/lab';
 import  ClearIcon from '@material-ui/icons/Clear';
 import  CheckIcon from '@material-ui/icons/Check';
@@ -14,11 +14,11 @@ import Search from './Search';
 const libraries = ["places"];
 
 const containerStyle = {
-  width: '800px',
-  height: '500px',
+  width: '90vw',
+  height: '90vh',
   display: 'inline-block',
-  'borderRadius': '15px',
-  'boxShadow': '5px 10px #888888'
+  // 'borderRadius': '15px',
+  // 'boxShadow': '5px 10px #888888'
 
 };
 
@@ -160,13 +160,19 @@ function MapContainer() {
   if (!isLoaded) return <div>"Loading"</div>;
    
   return (
-    <div>
+    <Paper className="map-wrapper" elevation={3}>
       <Locate panTo={panTo}/>
       <Search panTo={panTo} selectMarker={selectMarker}/>
-      <ToggleButtonGroup>
-        <ToggleButton onClick={() => setFilters("tp")} selected={filters.includes("tp")}><img src="/tp.svg" className="icon"/></ToggleButton>
-        <ToggleButton onClick={() => setFilters("hs")} selected={filters.includes("hs")}><img src="/hand-sanitizer.svg" className="icon"/></ToggleButton>
-        <ToggleButton onClick={() => setFilters("mask")} selected={filters.includes("mask")}><img src="/mask.svg" className="icon"/></ToggleButton>
+      <ToggleButtonGroup className="filters" aria-label="filters" orientation="vertical">
+        <ToggleButton  onClick={() => setFilters("tp")} selected={filters.includes("tp")} aria-label="has-toilet-paper">
+          <img src="/tp.svg" className="icon"/>
+        </ToggleButton>
+        <ToggleButton onClick={() => setFilters("hs")} selected={filters.includes("hs")} aria-label="has-hand-sanitizer">
+          <img src="/hand-sanitizer.svg" className="icon"/>
+        </ToggleButton>
+        <ToggleButton onClick={() => setFilters("mask")} selected={filters.includes("mask")} aria-label="has-masks">
+          <img src="/mask.svg" className="icon"/>
+        </ToggleButton>
       </ToggleButtonGroup>
       <GoogleMap
         mapContainerStyle={containerStyle}
@@ -236,7 +242,7 @@ function MapContainer() {
            </InfoWindow>) : null}
         
       </GoogleMap>
-      </div>
+      </Paper>
   )
 }
 

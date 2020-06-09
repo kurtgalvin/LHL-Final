@@ -4,14 +4,17 @@ import ExploreIcon from '@material-ui/icons/Explore';
 
 type LocateProps = {panTo: ({lat, lng}:any)=> void}
 const Locate = function ({panTo}:LocateProps) {
-  return (<IconButton aria-label="locate" onClick={()=> {
-    navigator.geolocation.getCurrentPosition((position) => {
-      panTo({lat: position.coords.latitude, lng: position.coords.longitude})
-    }, () => null);
+  return (
+  <div className="locate">
+    <IconButton aria-label="locate" onClick={()=> {
+      navigator.geolocation.getCurrentPosition((position) => {
+        panTo({lat: position.coords.latitude, lng: position.coords.longitude})
+      }, () => null);
 
-  }}>
-    <ExploreIcon/>
-  </IconButton>
+    }}>
+      <ExploreIcon/>
+    </IconButton>
+  </div>
   );  
 }
 
