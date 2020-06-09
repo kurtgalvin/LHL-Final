@@ -2,8 +2,8 @@
     display: grid;
     justify-items: center;
     margin: 1%;
-    column-gap: 1%;
-    row-gap: 3%;
+    margin-top: 3rem;
+    gap: 1rem;
     grid-template-columns: 1fr 2fr;
     grid-template-rows: 0.2fr 1fr 1fr;
     grid-template-areas: 
@@ -15,8 +15,7 @@
         grid-area: header;
         display: grid;
         width: 100%;
-        column-gap: inherit;
-        row-gap: inherit;
+        gap: inherit;
         grid-template-columns: inherit;
         grid-template-areas: "toggle select";
 
