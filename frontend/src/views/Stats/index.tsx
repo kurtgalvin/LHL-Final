@@ -32,7 +32,7 @@ export default () => {
             color="primary" 
             variant={national ? 'contained' : 'outlined'}
             onClick={() => setNational(true)}
-          >National</Button>
+          >Canada</Button>
           <Button 
             color="primary" 
             variant={national ? 'outlined' : 'contained'}

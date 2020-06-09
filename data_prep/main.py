@@ -70,13 +70,13 @@ def canada(df):
     canada_df.to_json(f'{DATA_PATH}/canada.json', orient='records')
     return
 
-def national(df):
+def global_(df):
     countries = ['Canada', 'Austria', 'US']
-    national_data = df.groupby(['date', 'country', 'month', 'day', 'year'], as_index=False).sum()
+    global_data = df.groupby(['date', 'country', 'month', 'day', 'year'], as_index=False).sum()
 
-    national_df = pd.DataFrame(columns=['month', 'day', 'year', 'date'])
+    global_df = pd.DataFrame(columns=['month', 'day', 'year', 'date'])
     for c in countries:
-        p_data = national_data.loc[national_data['country'].str.contains(c, na=False, regex=True)]
+        p_data = global_data.loc[global_data['country'].str.contains(c, na=False, regex=True)]
         p_data = p_data.groupby(['date', 'country', 'month', 'day', 'year'], as_index=False).sum()
 
         min_data = p_data[['month', 'day', 'year', 'date', 'confirmed', 'deaths', 'recovered']]
@@ -86,10 +86,10 @@ def national(df):
             'recovered': f'{c}_recovered'
         }, inplace=True)
         
-        national_df = national_df.merge(min_data, on=['month', 'day', 'year', 'date'], how='outer')
-    national_df = national_df.sort_values(by=['month', 'day']).fillna(method='ffill')
-    national_df.to_json(f'{DATA_PATH}/national.json', orient='records')
+        global_df = global_df.merge(min_data, on=['month', 'day', 'year', 'date'], how='outer')
+    global_df = global_df.sort_values(by=['month', 'day']).fillna(method='ffill')
+    global_df.to_json(f'{DATA_PATH}/global.json', orient='records')
     return
 
 canada(df)
-national(df)
+global_(df)
