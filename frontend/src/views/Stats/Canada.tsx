@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-// import { ResponsiveContainer, LineChart, Tooltip, Brush, Line } from 'recharts';
+import React from 'react';
 import { Paper } from '@material-ui/core'
 
 import canadaData from '../../data/canada.json'
@@ -28,7 +27,8 @@ interface IProps {}
 export default ({}: IProps) => {
   const [provinces, toggleProvince] = useToggleArray(["Alberta", "British Columbia",  "Ontario", "Quebec"])
 
-  let totalOfSelected = provinces.reduce((total, prov) => {
+  const selectedCodes = provinces.map(p => (provinceCodes as any)[p]);
+  const selectedTotal = provinces.reduce((total, prov) => {
     return total + (canadaData as any)[canadaData.length - 1][`${(provinceCodes as any)[prov]}_confirmed`]
   }, 0);
 
@@ -40,7 +40,7 @@ export default ({}: IProps) => {
             title={p}
             onClick={() => toggleProvince(p)}
             active={provinces.includes(p)}
-            percent={Math.round(((canadaData as any)[canadaData.length - 1][`${(provinceCodes as any)[p]}_confirmed`] / totalOfSelected) * 100)}
+            percent={Math.round(((canadaData as any)[canadaData.length - 1][`${(provinceCodes as any)[p]}_confirmed`] / selectedTotal) * 100)}
           >
             {(provinceCodes as any)[p]}<br/>
             {(canadaData as any)[canadaData.length - 1][`${(provinceCodes as any)[p]}_confirmed`]}
@@ -49,11 +49,11 @@ export default ({}: IProps) => {
       </Paper>
 
       <Paper className="LineChart" elevation={3}>
-        <LineChart data={canadaData} regions={provinces} regionCodes={provinceCodes} />
+        <LineChart data={canadaData} regions={selectedCodes}/>
       </Paper>
 
       <Paper className="RadarChart" elevation={3}>
-        <RadarChart />
+        <RadarChart data={canadaData[canadaData.length - 1]}  regions={selectedCodes} total={selectedTotal}/>
       </Paper>
     </>
   )

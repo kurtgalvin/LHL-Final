@@ -3,8 +3,7 @@ import { ResponsiveContainer, LineChart, Tooltip, Brush, Line } from 'recharts';
 
 interface IProps {
   data: object[]
-  regions: string[],
-  regionCodes: any
+  regions: string[]
 }
 
 const randomColour = () => {
@@ -12,12 +11,12 @@ const randomColour = () => {
   return `rgb(${random()}, ${random()}, ${random()})`
 }
 
-export default ({ data, regions, regionCodes }: IProps) => {
+export default ({ data, regions }: IProps) => {
   const [lines, setLines] = useState<React.ReactElement[]>([])
 
   useEffect(() => {
     setLines(regions.map(r => {
-      return <Line type="monotone" dataKey={`${regionCodes[r]}_confirmed`} stroke={randomColour()} dot={false} strokeWidth={3} />
+      return <Line type="monotone" dataKey={`${r}_confirmed`} stroke={randomColour()} dot={false} strokeWidth={3} />
     }))
   }, [regions])
 

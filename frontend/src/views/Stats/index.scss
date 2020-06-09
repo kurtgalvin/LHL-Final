@@ -3,12 +3,31 @@
     justify-items: center;
     margin: 1%;
     column-gap: 1%;
-    row-gap: 2%;
+    row-gap: 3%;
     grid-template-columns: 1fr 2fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 0.125fr 1fr 1fr;
     grid-template-areas: 
+        "header header"
         "ButtonGroup LineChart"
         "RadarChart .";
+
+    header {
+        grid-area: header;
+        display: grid;
+        width: 100%;
+        column-gap: inherit;
+        row-gap: inherit;
+        grid-template-columns: inherit;
+        grid-template-areas: "A B";
+
+        >.A {
+            grid-area: A;
+        }
+
+        >.B {
+            grid-area: B;
+        }
+    }
 
     .ButtonGroup {
         grid-area: ButtonGroup;
