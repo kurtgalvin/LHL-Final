@@ -35,6 +35,7 @@ export default function Search ({panTo, selectMarker}:SearchProps) {
               await selectMarker(place_id, address, results[0]);
               const {lat, lng} = await getLatLng(results[0]);
               panTo({lat, lng});
+              setValue("", false);
             }catch (error) {
               console.log(error);
             }

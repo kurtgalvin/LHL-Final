@@ -131,7 +131,7 @@ function MapContainer() {
   const panTo = React.useCallback(({lat,lng}) => {
     if (mapRef.current) {
       mapRef.current.panTo({lat, lng});
-      (mapRef.current as any).setZoom(14); //horrible hack but setZoom is undefined on GoogleMap types - though it still works! 
+      (mapRef.current as any).setZoom(16); //horrible hack but setZoom is undefined on GoogleMap types - though it still works! 
     }
   }, [])
 
