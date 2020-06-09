@@ -71,7 +71,7 @@ def canada(df):
     return
 
 def global_(df):
-    countries = ['Canada', 'Austria', 'US']
+    countries = ['Canada', 'Austria', 'US', 'Russia', 'Italy', 'Iran', 'New Zealand', 'South Africa', 'Mexico', 'UK', 'France', 'Germany']
     global_data = df.groupby(['date', 'country', 'month', 'day', 'year'], as_index=False).sum()
 
     global_df = pd.DataFrame(columns=['month', 'day', 'year', 'date'])
