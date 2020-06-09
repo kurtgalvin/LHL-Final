@@ -2,10 +2,10 @@
     display: grid;
     justify-items: center;
     margin: 1%;
-    margin-top: 3rem;
+    margin-top: 6rem;
     gap: 1rem;
     grid-template-columns: 1fr 2fr;
-    grid-template-rows: 0.2fr 1fr 1fr;
+    grid-template-rows: 4rem 1fr 1fr;
     grid-template-areas: 
         "header header"
         "ButtonGroup LineChart"
@@ -46,7 +46,7 @@
             }
 
             button:last-of-type {
-                margin-right: none;
+                margin-right: 0;
             }
         }
     }

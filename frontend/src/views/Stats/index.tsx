@@ -3,6 +3,7 @@ import { Paper, Button } from '@material-ui/core'
 
 import './index.scss'
 import Canada from './Canada'
+import Global from './Global'
 import useToggleArray from '../../hooks/useToggleArray'
 
 const selectionsArray = [
@@ -21,7 +22,7 @@ const selectionsArray = [
 ]
 
 export default () => {
-  const [national, setNational] = useState<boolean>(true)
+  const [canada, setCanada] = useState<boolean>(true)
   const [selections, toggleSelection] = useToggleArray(["confirmed"])
 
   return (
@@ -30,13 +31,13 @@ export default () => {
         <Paper className="toggle" elevation={3}>
           <Button 
             color="primary" 
-            variant={national ? 'contained' : 'outlined'}
-            onClick={() => setNational(true)}
+            variant={canada ? 'contained' : 'outlined'}
+            onClick={() => setCanada(true)}
           >Canada</Button>
           <Button 
             color="primary" 
-            variant={national ? 'outlined' : 'contained'}
-            onClick={() => setNational(false)}
+            variant={canada ? 'outlined' : 'contained'}
+            onClick={() => setCanada(false)}
           >Global</Button>
         </Paper>
         <Paper className="select" elevation={3}>
@@ -51,7 +52,7 @@ export default () => {
           )}
         </Paper>
       </header>
-      {React.useMemo(() => <Canada />, [])}
+      {canada ? <Canada /> :  <Global />}
     </div>
   )
 }
