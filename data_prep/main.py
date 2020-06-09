@@ -68,7 +68,7 @@ for p in provinces.keys():
     # p_data.to_json(f'{DATA_PATH}/canada/{provinces[p]}.json', orient='records')
     canada_df = canada_df.merge(min_data, on=['month', 'day', 'year', 'date'], how='outer')
 
-canada_df = canada_df.sort_values(by=['month', 'day'])
+canada_df = canada_df.sort_values(by=['month', 'day']).fillna(method='ffill')
 canada_df.to_json(f'{DATA_PATH}/canada.json', orient='records')
 
 # print(canada_data.loc[canada_data['province_state'].str.contains('Alberta', na=False, regex=False)].groupby(['date', 'country', 'month', 'day', 'year'], as_index=False).sum())
