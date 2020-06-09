@@ -32,43 +32,52 @@ for file_name in listdir('./csse_covid_19_daily_reports/'):
 
 df = df.sort_values(by=['month', 'day'])
 
-# bc = df.loc[(df['country'] == 'Canada') & (df['province_state'] == 'British Columbia')].reset_index(drop=True)
-# print(bc)
 
-canada_data = df.loc[(df['country'] == 'Canada')].reset_index(drop=True)
-# canada_data.to_json(f'{DATA_PATH}/canada_data.json', orient='records')
+def canada(df):
+    canada_data = df.loc[(df['country'] == 'Canada')].reset_index(drop=True)
 
-provinces = {
-    "British Columbia": "BC",
-    "Alberta": "AB",
-    "Saskatchewan": "SK",
-    "Manitoba": "MB",
-    ", ON|Ontario": "ON",
-    ", QC|Quebec": "QC",
-    "New Brunswick": "NB",
-    "Nova Scotia": "NS",
-    "Prince Edward Island": "PE",
-    "Newfoundland and Labrador": "NL",
-    "Yukon": "YT",
-    "Northwest Territories": "NT"
-}
+    provinces = {
+        "British Columbia": "BC",
+        "Alberta": "AB",
+        "Saskatchewan": "SK",
+        "Manitoba": "MB",
+        ", ON|Ontario": "ON",
+        ", QC|Quebec": "QC",
+        "New Brunswick": "NB",
+        "Nova Scotia": "NS",
+        "Prince Edward Island": "PE",
+        "Newfoundland and Labrador": "NL",
+        "Yukon": "YT",
+        "Northwest Territories": "NT"
+    }
 
-canada_df = pd.DataFrame(columns=['month', 'day', 'year', 'date'])
+    canada_df = pd.DataFrame(columns=['month', 'day', 'year', 'date'])
 
-for p in provinces.keys():
-    p_data = canada_data.loc[canada_data['province_state'].str.contains(p, na=False, regex=True)]
-    p_data = p_data.groupby(['date', 'country', 'month', 'day', 'year'], as_index=False).sum()
+    for p in provinces.keys():
+        p_data = canada_data.loc[canada_data['province_state'].str.contains(p, na=False, regex=True)]
+        p_data = p_data.groupby(['date', 'country', 'month', 'day', 'year'], as_index=False).sum()
 
-    min_data = p_data[['month', 'day', 'year', 'date', 'confirmed', 'deaths', 'recovered']]
-    min_data.rename(columns={
-        'confirmed': f'{provinces[p]}_confirmed',
-        'deaths': f'{provinces[p]}_deaths',
-        'recovered': f'{provinces[p]}_recovered'
-    }, inplace=True)
-    # p_data.to_json(f'{DATA_PATH}/canada/{provinces[p]}.json', orient='records')
-    canada_df = canada_df.merge(min_data, on=['month', 'day', 'year', 'date'], how='outer')
+        min_data = p_data[['month', 'day', 'year', 'date', 'confirmed', 'deaths', 'recovered']]
+        min_data.rename(columns={
+            'confirmed': f'{provinces[p]}_confirmed',
+            'deaths': f'{provinces[p]}_deaths',
+            'recovered': f'{provinces[p]}_recovered'
+        }, inplace=True)
+        # p_data.to_json(f'{DATA_PATH}/canada/{provinces[p]}.json', orient='records')
+        canada_df = canada_df.merge(min_data, on=['month', 'day', 'year', 'date'], how='outer')
 
-canada_df = canada_df.sort_values(by=['month', 'day']).fillna(method='ffill')
-canada_df.to_json(f'{DATA_PATH}/canada.json', orient='records')
+    canada_df = canada_df.sort_values(by=['month', 'day']).fillna(method='ffill')
+    canada_df.to_json(f'{DATA_PATH}/canada.json', orient='records')
+    return
 
-# print(canada_data.loc[canada_data['province_state'].str.contains('Alberta', na=False, regex=False)].groupby(['date', 'country', 'month', 'day', 'year'], as_index=False).sum())
+
+def national(df):
+    new_df = df.groupby(['date', 'country', 'month', 'day', 'year'], as_index=False).sum()
+    print(new_df.loc[new_df['country'] == 'Canada'])
+
+
+
+
+
+# canada(df)
+national(df)

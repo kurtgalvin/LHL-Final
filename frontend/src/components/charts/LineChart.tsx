@@ -16,7 +16,7 @@ export default ({ data, regions }: IProps) => {
 
   useEffect(() => {
     setLines(regions.map(r => {
-      return <Line type="monotone" dataKey={`${r}_confirmed`} stroke={randomColour()} dot={false} strokeWidth={3} />
+      return <Line key={r} type="monotone" dataKey={`${r}_confirmed`} stroke={randomColour()} dot={false} strokeWidth={3} />
     }))
   }, [regions])
 

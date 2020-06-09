@@ -44,7 +44,7 @@ function App() {
           textColor="primary"
           centered
         >
-          {links.map(link => <Tab label={link.label} onClick={link.to} />)}
+          {links.map((link, i) => <Tab key={i} label={link.label} onClick={link.to} />)}
         </Tabs>
       </Paper>
 

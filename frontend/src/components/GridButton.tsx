@@ -14,7 +14,7 @@ export default ({ title, percent, onClick, active, children }: IProps) => {
     <Tooltip title={title}>
       <Button color="primary" onClick={onClick} variant={active ? 'contained' : 'text'}>
         {children}<br />
-        {active && <LinearProgress className="Progress" color="secondary" variant="buffer" value={percent} />}
+        {active && <LinearProgress className="Progress" color="secondary" variant="determinate" value={percent} />}
       </Button>
     </Tooltip>
   )

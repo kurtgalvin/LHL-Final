@@ -37,6 +37,7 @@ export default ({}: IProps) => {
       <Paper className="ButtonGroup" elevation={3}>
         {Object.keys(provinceCodes).map(p => {
           return <GridButton
+            key={p}
             title={p}
             onClick={() => toggleProvince(p)}
             active={provinces.includes(p)}

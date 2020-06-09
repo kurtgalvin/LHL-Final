@@ -13,7 +13,6 @@ export default ({ data, regions, total }: IProps) => {
     A: data[`${r}_confirmed`],
     fullMark: total
   }))
-  console.log(chartData)
   return (
     <ResponsiveContainer width="100%" height={300}>
       <RadarChart outerRadius={90} data={chartData}>

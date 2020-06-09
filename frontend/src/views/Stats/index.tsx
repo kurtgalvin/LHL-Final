@@ -41,6 +41,7 @@ export default () => {
         </Paper>
         <Paper className="select" elevation={3}>
           {selectionsArray.map(i => <Button 
+              key={i.value}
               color="primary" 
               variant={selections.includes(i.value) ? 'contained' : 'outlined'}
               onClick={() => toggleSelection(i.value)}
