@@ -12,8 +12,8 @@ import Search from './Search';
 const libraries = ["places"];
 
 const containerStyle = {
-  width: '60vw',
-  height: '60vh',
+  width: '800px',
+  height: '500px',
   display: 'inline-block',
   'borderRadius': '15px',
   'boxShadow': '5px 10px #888888'
@@ -40,7 +40,7 @@ const mapOptions = {
   styles: noPoi
 }
 
-const markerClustererOptions = { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'};
+const markerClustererOptions = { imagePath: '/markerClusterer/m'};
 
 function MapContainer() {
 
