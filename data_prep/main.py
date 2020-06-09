@@ -91,5 +91,5 @@ def national(df):
     national_df.to_json(f'{DATA_PATH}/national.json', orient='records')
     return
 
-# canada(df)
+canada(df)
 national(df)
