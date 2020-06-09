@@ -23,7 +23,10 @@ export default ({ data, regions }: IProps) => {
   return (
     <ResponsiveContainer width="100%" height="100%" >
       <LineChart data={data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
-        <Tooltip/>
+        <Tooltip 
+          labelFormatter={i => (data as any)[i].date} 
+          formatter={(value, name) => [value, name.split('_')[0]]} 
+        />
         {lines}
         <Brush dataKey="date" startIndex={50}>
           <LineChart>
