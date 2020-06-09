@@ -27,15 +27,12 @@ export default function Search ({panTo, selectMarker}:SearchProps) {
     <Combobox 
         onSelect= { async (address) => {
           setValue(address, false);
-          console.log(address);
           clearSuggestions();
           try{
             const results = await getGeocode({address});
-            console.log(results[0]);
             const place_id = results[0].place_id;
-            selectMarker(place_id, address, results[0]);
+            await selectMarker(place_id, address, results[0]);
             const {lat, lng} = await getLatLng(results[0]);
-
             panTo({lat, lng});
           }catch (error) {
             console.log(error);

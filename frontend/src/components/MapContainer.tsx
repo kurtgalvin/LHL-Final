@@ -67,9 +67,8 @@ function MapContainer() {
   const [markers, setMarkers] = React.useState<IMarkerDictionary>({});
   const [selected, setSelected] = React.useState<IMarker | null>(null);
 
-  const selectMarker = function(placeId: string, address: string, result: any) {
+  const selectMarker = async function(placeId: string, address: string, result: any)  {
     
-    console.log(Object.keys(markers));
     if(markers[placeId]) {
       setSelected(markers[placeId]);
     } else {
@@ -77,16 +76,16 @@ function MapContainer() {
         id: 0, 
         name: address.split(',')[0],
         google_place_id: placeId,
-        type: result.types.find((e:string) => e.includes('pharmacy')) ? 'pharmacy' : 'supermarket',
+        type: result.types.find((e:string) => e.includes('pharmacy')) ? 'pharmacy' : 'supermarket', // TODO get it detecting pharmacy
         lat: result.geometry.location.lat(),
         lng: result.geometry.location.lng(),
         tp_stock: "Unknown",
         hs_stock: "Unknown",
         mask_stock: "Unknown"
       };
-      console.log(marker);
-      //setMarkers({...markers, [placeId]: marker});
-      console.log(markers);
+      const res = await axios.post('/api/markers', {name: marker.name, google_place_id: marker.google_place_id, lat: marker.lat, lng: marker.lng, type: marker.type });
+      marker.id = res.data.id;
+      setMarkers({...markers, [placeId]: marker});
       setSelected(marker);
       
     }
@@ -171,7 +170,6 @@ function MapContainer() {
           >
               <div>
                 <h4>{selected.name}</h4>
-                <h6>{selected.google_place_id}</h6>
                 <table>
                   <tbody>
                     <tr>
