@@ -5,7 +5,7 @@
     column-gap: 1%;
     row-gap: 3%;
     grid-template-columns: 1fr 2fr;
-    grid-template-rows: 0.125fr 1fr 1fr;
+    grid-template-rows: 0.2fr 1fr 1fr;
     grid-template-areas: 
         "header header"
         "ButtonGroup LineChart"
@@ -18,14 +18,37 @@
         column-gap: inherit;
         row-gap: inherit;
         grid-template-columns: inherit;
-        grid-template-areas: "A B";
+        grid-template-areas: "toggle select";
 
-        >.A {
-            grid-area: A;
+        >.toggle {
+            grid-area: toggle;
+            padding: 2%;
+
+            button {
+                margin-right: 2%;
+            }
         }
 
-        >.B {
-            grid-area: B;
+        >.select {
+            grid-area: select;
+            padding: 1%;
+
+            button {
+                height: 100%;
+                margin-right: 1%;
+            }
+        }
+        
+        >.toggle, >.select {
+            box-sizing: border-box;
+
+            button {
+                height: 100%;
+            }
+
+            button:last-of-type {
+                margin-right: none;
+            }
         }
     }
 
