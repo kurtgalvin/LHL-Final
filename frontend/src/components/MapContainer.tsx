@@ -2,10 +2,12 @@ import React from 'react';
 import { GoogleMap, useLoadScript, Marker, InfoWindow, MarkerClusterer } from '@react-google-maps/api';
 import Locate from './Locate';
 import {IconButton} from '@material-ui/core';
+import {ToggleButtonGroup, ToggleButton} from '@material-ui/lab';
 import  ClearIcon from '@material-ui/icons/Clear';
 import  CheckIcon from '@material-ui/icons/Check';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import axios from 'axios';
+import useToggleArray from '../hooks/useToggleArray';
 
 import Search from './Search';
 
@@ -66,6 +68,34 @@ function MapContainer() {
   const {isLoaded, loadError} = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY, libraries});
   const [markers, setMarkers] = React.useState<IMarkerDictionary>({});
   const [selected, setSelected] = React.useState<IMarker | null>(null);
+  const [filters, setFilters] = useToggleArray([]);
+  
+
+  const filterResults = function () {
+    let results = Object.keys(markers);
+
+    if(filters.includes("tp")) {
+      results = applyFilter(results, 'tp');
+    }
+    if(filters.includes("hs")) {
+      results = applyFilter(results, "hs");
+    }
+    if(filters.includes("mask")){
+      results = applyFilter(results, "mask");
+    }
+    return results;
+  }
+
+  const applyFilter = function(markerKeys:string[], filter: string) {
+    const result = [];
+
+    for(const key of markerKeys) {
+      if(markers[key][filter+'_stock'] === "In Stock") {
+        result.push(key);
+      }
+    }
+    return result;
+  }
 
   const selectMarker = async function(placeId: string, address: string, result: any)  {
     
@@ -133,6 +163,11 @@ function MapContainer() {
     <div>
       <Locate panTo={panTo}/>
       <Search panTo={panTo} selectMarker={selectMarker}/>
+      <ToggleButtonGroup>
+        <ToggleButton onClick={() => setFilters("tp")} selected={filters.includes("tp")}><img src="/tp.svg" className="icon"/></ToggleButton>
+        <ToggleButton onClick={() => setFilters("hs")} selected={filters.includes("hs")}><img src="/hand-sanitizer.svg" className="icon"/></ToggleButton>
+        <ToggleButton onClick={() => setFilters("mask")} selected={filters.includes("mask")}><img src="/mask.svg" className="icon"/></ToggleButton>
+      </ToggleButtonGroup>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
@@ -144,7 +179,7 @@ function MapContainer() {
 
         <MarkerClusterer options={markerClustererOptions}>
           {clusterer =>
-            Object.keys(markers).map(markerKey => (
+            filterResults().map(markerKey => (
               <Marker 
               key={markerKey} 
               position= {{lat: markers[markerKey].lat, lng: markers[markerKey].lng}} 
