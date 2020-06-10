@@ -8,7 +8,7 @@
   grid-template-areas: 
     "articles articles articles tweets"
     "articles articles articles tweets";
-  
+
   .Articles {
     grid-area: articles;
     display: grid;
@@ -17,15 +17,21 @@
     gap: 1.5rem 1.75rem;
 
     .Article {
+      position: relative;
       display: grid;
       overflow: hidden;
       grid-template-rows: 63% 28% 9%;
       transition: width 1s;
+      transition: all .3s ease-in-out;
       grid-template-areas: 
         'image' 
         'title' 
         'date';
+      animation-delay: 0.5s;
+      animation: 1.3s ease-out 0s 1 slideInFromBottom;
 
+      }
+      
       img {
         grid-area: image;
         width: 100%;
@@ -44,9 +50,38 @@
         padding: 0rem 0.3rem 0.0rem 0.3rem;
       }
 
+      .overlay {
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        right: 0;
+        background-image: linear-gradient( rgb(78, 98, 212),rgb(78, 98, 212), rgba(255,0,0,0));
+        overflow: hidden;
+        width: 100%;
+        height:0;
+        transition: .5s ease;
+      }
+
+      .text {
+        color: white;
+        font-size: 20px;
+        position: absolute;
+        top: 85%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
     }
+
     .Article:hover {
-      transform: scale(1.02);
+      transform: scale(1.04);
+    }
+
+    .Article:hover .overlay {
+      bottom: 76%;
+      height: 100%;
     }
   }
 
@@ -55,7 +90,7 @@
     overflow: hidden;
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    gap: 1rem;
+    gap: 1.25rem;
 
     .tweet {
       border-radius: 1rem;
@@ -66,6 +101,8 @@
       "image ."
       "text text" 
       "date username";
+      animation-delay: 0.5s;
+      animation: 1.5s ease-out 0s 1 slideInFromBottom;
 
       
       .img {
@@ -73,7 +110,6 @@
         justify-self: start;
         border-radius: 0.5rem;
         padding: 0.75rem 0rem 0rem 0.75rem;
-
       }
     
       .text {
@@ -88,7 +124,6 @@
         padding-left: 0.75rem;
         padding-bottom:0.5rem;
         padding-top:0.5rem;
-        
       }
 
       .username {
@@ -97,16 +132,20 @@
         align-self: end;
         padding-right: 0.90rem;
         padding-bottom: 0.5rem;
-        // border: solid;
-        // border-color:rgb(194, 194, 194);
-        // border-radius: 0.5rem;
-
-     
       }
+
       .username:hover {
         transform: scale(1.05);
       }
     }
-
   }
-}
+
+
+  @keyframes slideInFromBottom {
+    0% {
+      transform: translateY(13%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
