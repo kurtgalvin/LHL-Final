@@ -1,0 +1,52 @@
+/* Map Styling maybe move to another file */
+
+img.icon {
+  height: 20px;
+  width:20px;
+  float: left;
+}
+
+.map-wrapper{
+  width: 90vw;
+  height: 83vh;
+  text-align: center;
+  margin: auto;
+  margin-top: 4rem;
+}
+.search {
+  position: absolute;
+  top: 8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px;
+  z-index: 10;
+}
+
+.search input {
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  width: 100%;
+}
+
+.locate {
+  position: absolute;
+  top: 8rem;
+  right: 6%;
+  background: none;
+  border: none;
+  z-index: 10;
+}
+/* .locate img {
+  width: 30px;
+  cursor: pointer;
+} */
+
+.filters {
+  position: absolute;
+  top: 8rem;
+  left: 6%;
+  background: white;
+  z-index: 10;
+
+}
