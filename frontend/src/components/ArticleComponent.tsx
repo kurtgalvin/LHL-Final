@@ -12,7 +12,7 @@ class ArticleComponent extends React.Component <{data: object}> {
           <img src={data['urlToImage']} alt={data['author']} width="300" />
         </a>
         <p className="title">{data['title']}</p>
-        <p className="date">{new Date(data.publishedAt).toLocaleTimeString()}</p>
+        <p className="date">{new Date(data.publishedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
       </Paper>
     )
   }
