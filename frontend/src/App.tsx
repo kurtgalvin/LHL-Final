@@ -9,7 +9,8 @@ import NewsView from './views/News';
 enum Routes {
   Map,
   Stats,
-  News
+  News,
+  PacMan
 }
 
 interface Link {
@@ -32,6 +33,10 @@ function App() {
     {
       label: "News",
       to: () => setRoute(Routes.News)
+    },
+    {
+      label: "Distraction",
+      to: () => setRoute(Routes.PacMan)
     }
   ]
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ResponsiveContainer, LineChart, Tooltip, Brush, Line } from 'recharts';
+import { ResponsiveContainer, LineChart, Tooltip, Brush, Line, XAxis } from 'recharts';
 
 interface IProps {
   data: object[]
@@ -28,10 +28,8 @@ export default ({ data, regions, dataArgs }: IProps) => {
   return (
     <ResponsiveContainer width="100%" height="100%" >
       <LineChart data={data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
-        <Tooltip 
-          labelFormatter={i => (data as any)[i].date} 
-          formatter={(value, name) => [value, name.replace('_', ' ')]} 
-        />
+        <XAxis dataKey="date" hide={false} />
+        <Tooltip formatter={(value, name) => [value, name.replace('_', ' ')]} />
         {lines}
         <Brush dataKey="date" startIndex={50}>
           <LineChart>
