@@ -20,6 +20,7 @@
     "@types/socket.io-client": "^1.4.33",
     "axios": "^0.19.2",
     "core-js": "^2.6.11",
+    "material-ui": "^0.20.2",
     "newsapi": "^2.4.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
