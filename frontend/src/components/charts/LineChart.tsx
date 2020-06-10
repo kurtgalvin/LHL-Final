@@ -23,9 +23,6 @@ export default ({ data, regions, dataArgs }: IProps) => {
       }
     }
     setLines(result)
-    // setLines(regions.map(r => {
-    //   return <>{dataArgs.map(a => <Line key={r} type="monotone" dataKey={`${r}_${a}`} stroke={randomColour()} dot={false} strokeWidth={3} />)}</>
-    // }))
   }, [regions, dataArgs])
 
   return (
