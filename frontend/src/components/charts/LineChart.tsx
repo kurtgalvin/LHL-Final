@@ -4,6 +4,7 @@ import { ResponsiveContainer, LineChart, Tooltip, Brush, Line } from 'recharts';
 interface IProps {
   data: object[]
   regions: string[]
+  dataArgs: string[]
 }
 
 const randomColour = () => {
@@ -11,21 +12,28 @@ const randomColour = () => {
   return `rgb(${random()}, ${random()}, ${random()})`
 }
 
-export default ({ data, regions }: IProps) => {
+export default ({ data, regions, dataArgs }: IProps) => {
   const [lines, setLines] = useState<React.ReactElement[]>([])
 
   useEffect(() => {
-    setLines(regions.map(r => {
-      return <Line key={r} type="monotone" dataKey={`${r}_confirmed`} stroke={randomColour()} dot={false} strokeWidth={3} />
-    }))
-  }, [regions])
+    const result = []
+    for (const r of regions) {
+      for (const a of dataArgs) {
+        result.push(<Line key={r} type="monotone" dataKey={`${r}_${a}`} stroke={randomColour()} dot={false} strokeWidth={3} />)
+      }
+    }
+    setLines(result)
+    // setLines(regions.map(r => {
+    //   return <>{dataArgs.map(a => <Line key={r} type="monotone" dataKey={`${r}_${a}`} stroke={randomColour()} dot={false} strokeWidth={3} />)}</>
+    // }))
+  }, [regions, dataArgs])
 
   return (
     <ResponsiveContainer width="100%" height="100%" >
       <LineChart data={data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
         <Tooltip 
           labelFormatter={i => (data as any)[i].date} 
-          formatter={(value, name) => [value, name.split('_')[0]]} 
+          formatter={(value, name) => [value, name.replace('_', ' ')]} 
         />
         {lines}
         <Brush dataKey="date" startIndex={50}>

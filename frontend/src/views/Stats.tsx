@@ -8,6 +8,7 @@ import useToggleArray from '../hooks/useToggleArray'
 import GridButton from '../components/GridButton'
 import LineChart from '../components/charts/LineChart'
 import RadarChart from '../components/charts/RadarChart'
+import StackedBarChart from '../components/charts/StackedBarChart'
 
 interface IParam {
   title: string,
@@ -26,6 +27,10 @@ const args: IParam[] = [
   {
     title: "Recovered",
     value: "recovered"
+  },
+  {
+    title: "Active",
+    value: "active"
   }
 ]
 
@@ -192,11 +197,15 @@ export default ({}: IProps) => {
       </Paper>
 
       <Paper className="LineChart" elevation={3}>
-        <LineChart data={canada ? canadaData : globalData} regions={currSelected}/>
+        <LineChart data={canada ? canadaData : globalData} regions={currSelected} dataArgs={argsSelected} />
       </Paper>
 
       <Paper className="RadarChart" elevation={3}>
-        <RadarChart data={dataLastIndex}  regions={currSelected} total={currSelectedTotal}/>
+        <RadarChart data={dataLastIndex} regions={currSelected} total={currSelectedTotal} />
+      </Paper>
+
+      <Paper className="StackedBarChart" elevation={3}>
+        <StackedBarChart data={dataLastIndex} regions={currSelected} />
       </Paper>
     </div>
   )
