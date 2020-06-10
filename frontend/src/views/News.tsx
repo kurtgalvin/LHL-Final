@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import ArticleComponent from '../components/ArticleComponent'
 import socketIOClient from "socket.io-client";
 import TweetComponent from '../components/TweetComponent';
+import { Paper } from '@material-ui/core'
 const NewsAPI = require('newsapi');
 let newsapi = new NewsAPI(process.env.REACT_APP_new_NEWSAPI);
 
 
 
-function Newslist() {
+function Articleslist() {
   const [articles, setArticles] = useState([]);
   // try {
   useEffect(() => {
@@ -27,9 +28,9 @@ function Newslist() {
   }, []);
 
   console.log(articles)
-  return <div>
+  return <div className="Articles">
     {articles.map((article, index) => (
-        <ArticleComponent key={index} data={article} />
+      <ArticleComponent key={index} data={article} />
     ))}
   </div>
 
@@ -44,7 +45,7 @@ function Tweetlist() {
       console.log("Socket Connected");
       socket.on("tweets", (data : any) => {
         console.info(data);
-        let newList = [data].concat(items.slice(0, 15));
+        // let newList = [data].concat(items.slice(0, 15));
         setItems((oldState: any) => {
           // {items: newList});
           return [...oldState, data].slice(0, 15)
@@ -58,11 +59,11 @@ function Tweetlist() {
     });
   }, [])
   console.log(items)
-  return <div>
+  return <Paper className= "Tweets" elevation={3}>
     {items.map((tweet: any, index: any) => (
       <TweetComponent key={index} data={tweet} />
     ))}
-  </div>
+  </Paper>
 
 };
 
@@ -73,10 +74,10 @@ interface IProps {
 
 const NewsView: React.FC<IProps> = () => {
   return (
-    <div>
-      <Newslist/><Tweetlist/>
+    <div className="News">
+      <Articleslist/>
+      <Tweetlist/>
     </div>
-    
   )
 }
 
