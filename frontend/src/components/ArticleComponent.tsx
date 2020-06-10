@@ -11,8 +11,8 @@ class ArticleComponent extends React.Component <{data: object}> {
         <a href={data['url']}>
           <img src={data['urlToImage']} alt={data['author']} width="300" />
         </a>
-        <p className="desc">{data['title']}</p>
-        <p className="date">{data['publishedAt']}</p>
+        <p className="title">{data['title']}</p>
+        <p className="date">{new Date(data.publishedAt).toLocaleTimeString()}</p>
       </Paper>
     )
   }
