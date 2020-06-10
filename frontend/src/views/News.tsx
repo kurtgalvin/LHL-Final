@@ -48,7 +48,7 @@ function Tweetlist() {
         // let newList = [data].concat(items.slice(0, 15));
         setItems((oldState: any) => {
           // {items: newList});
-          return [...oldState, data].slice(0, 15)
+          return [...oldState, data].slice(0, 7)
         });
       });
     });
