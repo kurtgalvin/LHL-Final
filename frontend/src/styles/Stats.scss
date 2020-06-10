@@ -9,7 +9,7 @@
     grid-template-areas: 
         "header header header"
         "ButtonGroup LineChart LineChart"
-        "RadarChart StackedBarChart .";
+        "StackedBarChart RadarChart .";
 
     header {
         grid-area: header;
@@ -78,13 +78,13 @@
         box-sizing: border-box;
     }
 
-    .RadarChart {
-        grid-area: RadarChart;
+    .StackedBarChart {
+        grid-area: StackedBarChart;
         width: 100%;
     }
 
-    .StackedBarChart {
-        grid-area: StackedBarChart;
+    .RadarChart {
+        grid-area: RadarChart;
         width: 100%;
     }
 }

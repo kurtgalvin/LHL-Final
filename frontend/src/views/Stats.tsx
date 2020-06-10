@@ -200,12 +200,12 @@ export default ({}: IProps) => {
         <LineChart data={canada ? canadaData : globalData} regions={currSelected} dataArgs={argsSelected} />
       </Paper>
 
-      <Paper className="RadarChart" elevation={3}>
-        <RadarChart data={dataLastIndex} regions={currSelected} total={currSelectedTotal} />
-      </Paper>
-
       <Paper className="StackedBarChart" elevation={3}>
         <StackedBarChart data={dataLastIndex} regions={currSelected} />
+      </Paper>
+
+      <Paper className="RadarChart" elevation={3}>
+        <RadarChart data={dataLastIndex} regions={currSelected} total={currSelectedTotal} />
       </Paper>
     </div>
   )

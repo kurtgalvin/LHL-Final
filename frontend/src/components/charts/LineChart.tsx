@@ -19,7 +19,7 @@ export default ({ data, regions, dataArgs }: IProps) => {
     const result = []
     for (const r of regions) {
       for (const a of dataArgs) {
-        result.push(<Line key={r} type="monotone" dataKey={`${r}_${a}`} stroke={randomColour()} dot={false} strokeWidth={3} />)
+        result.push(<Line key={`${r}_${a}`} type="monotone" dataKey={`${r}_${a}`} stroke={randomColour()} dot={false} strokeWidth={3} />)
       }
     }
     setLines(result)

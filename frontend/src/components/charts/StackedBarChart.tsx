@@ -10,7 +10,6 @@ export default ({ data, regions }: IProps) => {
   const prepedData = regions.map(r => ({
     region: r,
     Deaths: data[`${r}_deaths`],
-    // Active: data[`${r}_confirmed`] - (data[`${r}_deaths`] + data[`${r}_recovered`]),
     Active: data[`${r}_active`],
     Recovered: data[`${r}_recovered`]
   }))
