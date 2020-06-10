@@ -5,11 +5,11 @@
     margin-top: 4rem;
     gap: 1rem;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 4rem 1fr 1fr;
+    grid-template-rows: 4rem 20rem 20rem;
     grid-template-areas: 
         "header header header"
         "ButtonGroup LineChart LineChart"
-        "RadarChart . .";
+        "StackedBarChart RadarChart .";
 
     header {
         grid-area: header;
@@ -76,6 +76,11 @@
         width: 100%;
         padding: 1%;
         box-sizing: border-box;
+    }
+
+    .StackedBarChart {
+        grid-area: StackedBarChart;
+        width: 100%;
     }
 
     .RadarChart {

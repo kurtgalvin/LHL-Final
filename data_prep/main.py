@@ -58,12 +58,13 @@ def canada(df):
         p_data = p_data.groupby(['date', 'country', 'month', 'day', 'year'], as_index=False).sum()
 
         min_data = p_data[['month', 'day', 'year', 'date', 'confirmed', 'deaths', 'recovered']]
+        min_data[f'{provinces[p]}_active'] = min_data.confirmed - (min_data.deaths + min_data.recovered)    
+
         min_data.rename(columns={
             'confirmed': f'{provinces[p]}_confirmed',
             'deaths': f'{provinces[p]}_deaths',
             'recovered': f'{provinces[p]}_recovered'
         }, inplace=True)
-        # p_data.to_json(f'{DATA_PATH}/canada/{provinces[p]}.json', orient='records')
         canada_df = canada_df.merge(min_data, on=['month', 'day', 'year', 'date'], how='outer')
 
     canada_df = canada_df.sort_values(by=['month', 'day']).fillna(method='ffill')
@@ -80,6 +81,8 @@ def global_(df):
         p_data = p_data.groupby(['date', 'country', 'month', 'day', 'year'], as_index=False).sum()
 
         min_data = p_data[['month', 'day', 'year', 'date', 'confirmed', 'deaths', 'recovered']]
+        min_data[f'{c}_active'] = min_data.confirmed - (min_data.deaths + min_data.recovered)
+
         min_data.rename(columns={
             'confirmed': f'{c}_confirmed',
             'deaths': f'{c}_deaths',
@@ -87,6 +90,7 @@ def global_(df):
         }, inplace=True)
         
         global_df = global_df.merge(min_data, on=['month', 'day', 'year', 'date'], how='outer')
+
     global_df = global_df.sort_values(by=['month', 'day']).fillna(method='ffill')
     global_df.to_json(f'{DATA_PATH}/global.json', orient='records')
     return
