@@ -5,12 +5,13 @@ import './App.scss';
 import MapView from './views/Map';
 import StatsView from './views/Stats';
 import NewsView from './views/News';
+import DistractionView from './views/Distraction';
 
 enum Routes {
   Map,
   Stats,
   News,
-  PacMan
+  Distraction
 }
 
 interface Link {
@@ -36,14 +37,19 @@ function App() {
     },
     {
       label: "Distraction",
-      to: () => setRoute(Routes.PacMan)
+      to: () => setRoute(Routes.Distraction)
     }
   ]
 
   return (
     <div className="App">
-      <Paper className="Paper" elevation={3}>
+      <Paper className="PaperHeader" elevation={3}>
+        <div className="logo">
+          <img src="/virus.svg"/>
+          <h2>VanCovid</h2>
+        </div>
         <Tabs 
+          className="tabs"
           value={route}
           indicatorColor="primary"
           textColor="primary"
@@ -56,6 +62,7 @@ function App() {
       {route === Routes.Map && <MapView />}
       {route === Routes.Stats && <StatsView />}
       {route === Routes.News && <NewsView />}
+      {route === Routes.Distraction && <DistractionView />}
     </div>
   );
 }
