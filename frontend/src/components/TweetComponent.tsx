@@ -6,7 +6,7 @@ class TweetComponent extends React.Component <{data: any}> {
     let data = this.props.data;
 
     return (
-      <Paper className="tweet" elevation={3}>
+      <Paper className="tweet" elevation={7}>
             <img className="img" src={data.user.profile_image_url} alt={data.user.name}/>
             <div className="text">{data.text}</div>
           <div className="date">
