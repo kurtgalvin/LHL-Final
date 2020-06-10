@@ -205,7 +205,7 @@ export default ({}: IProps) => {
       </Paper>
 
       <Paper className="RadarChart" elevation={3}>
-        <RadarChart data={dataLastIndex} regions={currSelected} total={currSelectedTotal} />
+        <RadarChart data={dataLastIndex} regions={currSelected} dataArgs={argsSelected} total={currSelectedTotal} />
       </Paper>
     </div>
   )
