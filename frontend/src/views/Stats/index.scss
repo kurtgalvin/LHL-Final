@@ -4,12 +4,12 @@
     margin: 1%;
     margin-top: 4rem;
     gap: 1rem;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 4rem 1fr 1fr;
     grid-template-areas: 
-        "header header"
-        "ButtonGroup LineChart"
-        "RadarChart .";
+        "header header header"
+        "ButtonGroup LineChart LineChart"
+        "RadarChart . .";
 
     header {
         grid-area: header;
@@ -17,7 +17,7 @@
         width: 100%;
         gap: inherit;
         grid-template-columns: inherit;
-        grid-template-areas: "toggle select";
+        grid-template-areas: "toggle select select";
 
         >.toggle {
             grid-area: toggle;
