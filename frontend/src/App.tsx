@@ -6,14 +6,12 @@ import MapView from './views/Map';
 import StatsView from './views/Stats';
 import NewsView from './views/News';
 import InfoView from './views/Info'
-import DistractionView from './views/Distraction';
 
 enum Routes {
   Map,
   Stats,
   News,
   Info,
-  Distraction
 }
 
 interface Link {
@@ -36,10 +34,6 @@ function App() {
     {
       label: "News",
       to: () => setRoute(Routes.News)
-    },
-    {
-      label: "Distraction",
-      to: () => setRoute(Routes.Distraction)
     },
     {
       label: "Info",
@@ -69,7 +63,7 @@ function App() {
       {route === Routes.Stats && <StatsView />}
       {route === Routes.News && <NewsView />}   
       {route === Routes.Info && <InfoView />}
-      {route === Routes.Distraction && <DistractionView />}
+      
     </div>
   );
 }
