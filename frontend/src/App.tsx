@@ -5,12 +5,14 @@ import './App.scss';
 import MapView from './views/Map';
 import StatsView from './views/Stats';
 import NewsView from './views/News';
+import InfoView from './views/Info'
 import DistractionView from './views/Distraction';
 
 enum Routes {
   Map,
   Stats,
   News,
+  Info,
   Distraction
 }
 
@@ -38,6 +40,10 @@ function App() {
     {
       label: "Distraction",
       to: () => setRoute(Routes.Distraction)
+    },
+    {
+      label: "Info",
+      to: () => setRoute(Routes.Info)
     }
   ]
 
@@ -61,7 +67,8 @@ function App() {
 
       {route === Routes.Map && <MapView />}
       {route === Routes.Stats && <StatsView />}
-      {route === Routes.News && <NewsView />}
+      {route === Routes.News && <NewsView />}   
+      {route === Routes.Info && <InfoView />}
       {route === Routes.Distraction && <DistractionView />}
     </div>
   );
