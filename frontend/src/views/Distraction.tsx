@@ -1,6 +1,6 @@
 import React from 'react';
-import { Paper } from '@material-ui/core';
-import { render } from 'react-dom';
+import Pacman from '../components/Pacman';
+import '../styles/distraction.scss';
 
 
 
@@ -12,10 +12,10 @@ const DistractionView: React.FC<IProps> = () => {
   return (<div>
     
 
-  poop
+ <Pacman/>
 
 
-    
+  
   </div> );
    
 }
