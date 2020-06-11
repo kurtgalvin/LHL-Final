@@ -38,13 +38,13 @@ function App() {
       to: () => setRoute(Routes.News)
     },
     {
+      label: "Info",
+      to: () => setRoute(Routes.Info)
+    },
+    {
       label: "Distraction",
       to: () => setRoute(Routes.Distraction)
     },
-    {
-      label: "Info",
-      to: () => setRoute(Routes.Info)
-    }
   ]
 
   return (

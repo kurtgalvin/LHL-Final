@@ -13,7 +13,7 @@ function Articleslist() {
   useEffect(() => {
     newsapi.v2.topHeadlines({
       // sources: 'vancouver sun',
-      q: 'covid-19 Canada',
+      q: 'covid-19',
       category: 'health',
       language: 'en',
       country: 'ca',
