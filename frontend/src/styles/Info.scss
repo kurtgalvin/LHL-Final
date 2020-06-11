@@ -2,8 +2,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 0.5fr 3fr 3fr 3fr;
-  margin: 5%;
-  margin-top: 4rem;
+  // margin: 5%;
+  // margin-top: 4rem;
   padding-top: 4rem;
   padding-bottom: 8rem;
   gap: 2rem 1.75rem; 
@@ -11,7 +11,7 @@
     "title title"
     "coughing distancing"
     "Gathering Work" 
-    "Essential .";
+    "Essential Logo";
 
     .Title {
       grid-area: title;  
@@ -142,6 +142,29 @@
         font-weight: 500;
       }
     }
+
+    .Logo {
+      grid-area: Logo;
+      width: 85%;
+      margin: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation-delay: 0s;
+      animation-duration: 2s;
+      animation-name: slideInFromRight;
+
+      img {
+        width: 210px;
+        height: 210px;
+      }
+
+      .text {
+        font-size: large;
+        font-weight: 500;
+      }
+    }
+
 
     @keyframes slideInFromLeft {
       0%   { opacity: 0; }

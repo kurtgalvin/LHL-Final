@@ -34,7 +34,7 @@ const InfoView: React.FC<IProps> = () => {
       <img src='https://github.com/kurtgalvin/LHL-Final/blob/Stretch/Infograph/frontend/docs/Work.png?raw=true' alt='work' width="300" />
       <div className= "text">
         {/* 4. Work at home if you can. */}
-        If your business or organization isn't an essential service, you must ensure 2 m distancing for customers or staff. If 2 m isn't possible, you must close.
+        If your business or organization isn't an essential service, you must ensure 2 m distancing for customers or staff.
       </div>
     </Paper>
     <Paper className="Essential">
@@ -42,6 +42,14 @@ const InfoView: React.FC<IProps> = () => {
       <div className="text">
         {/* 5. Avoid non-essential outings. */}
         Only go out for groceries, medical needs, or exercise. Exercise alone or with members of your household.
+      </div>
+    </Paper>
+    <Paper className="Logo">
+      <a href="https://vancouver.ca/home-property-development/covid-19-coronavirus-within-vancouver.aspx" target="_blank">
+      <img src='https://github.com/kurtgalvin/LHL-Final/blob/Stretch/Infograph/frontend/docs/logo.png?raw=true' alt='logo' width="300" />
+      </a>
+      <div className="text">
+        Read More @Vancouver.ca
       </div>
     </Paper>
   </Paper>
