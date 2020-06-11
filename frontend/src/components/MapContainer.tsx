@@ -165,13 +165,13 @@ function MapContainer() {
       <Search panTo={panTo} selectMarker={selectMarker}/>
       <ToggleButtonGroup className="filters" aria-label="filters" orientation="vertical">
         <ToggleButton  onClick={() => setFilters("tp")} selected={filters.includes("tp")} aria-label="has-toilet-paper">
-          <img src="/tp.svg" className="icon"/>
+          <img src="/tp.svg" alt="toilet paper" className="icon"/>
         </ToggleButton>
         <ToggleButton onClick={() => setFilters("hs")} selected={filters.includes("hs")} aria-label="has-hand-sanitizer">
-          <img src="/hand-sanitizer.svg" className="icon"/>
+          <img src="/hand-sanitizer.svg" alt="hand sanitizer" className="icon"/>
         </ToggleButton>
         <ToggleButton onClick={() => setFilters("mask")} selected={filters.includes("mask")} aria-label="has-masks">
-          <img src="/mask.svg" className="icon"/>
+          <img src="/mask.svg" alt="masks" className="icon"/>
         </ToggleButton>
       </ToggleButtonGroup>
       <GoogleMap

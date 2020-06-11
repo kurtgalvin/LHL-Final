@@ -1,10 +1,37 @@
 .App {
-  .Paper {
+  .PaperHeader {
     width: 98%;
     margin: 5px auto;
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-areas: "logo tabs .";
+
+    .logo {
+      grid-area: logo;
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 40px;
+        height: 40px;
+        padding: 0.25rem;
+        vertical-align: middle;
+        float: left;
+      }
+
+      h2 {
+        color: grey;
+        margin: 0;
+      }
+    }
+
+    .tabs {
+      grid-area: tabs;
+    }
 
     button {
       font-weight: bold;
     }
   }
+  
 }
