@@ -1,0 +1,38 @@
+.pacman-game{
+  padding: 4rem;
+}
+
+.wall {
+  width: 50px;
+  height: 50px;
+  background-image: url('/pacman/wall.png');
+  display: inline-block;
+}
+.coin {
+  width: 50px;
+  height: 50px;
+  background-image: url('/pacman/coin.png');
+  display: inline-block;
+}
+.ground {
+  width: 50px;
+  height: 50px;
+  background-image: url('/pacman/bg.png');
+  display: inline-block;
+}
+.ghost {
+  width: 50px;
+  height: 50px;
+  background-image: url('/pacman/ghost1.png');
+  display: inline-block;
+}
+.pacman {
+  width: 50px;
+  height: 50px;
+  background-image: url('/pacman/pacman.png');
+  display: inline-block;
+}
+
+div {
+  line-height: 0px;
+}
