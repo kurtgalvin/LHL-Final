@@ -1,0 +1,38 @@
+.Container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 0.5fr 3fr 3fr 3fr;
+  margin: 5%;
+  margin-top: 4rem;
+  gap: 1.25rem 1.75rem; 
+  grid-template-areas: 
+    "title title"
+    "coughing distancing"
+    "Gathering Work" 
+    "Essential .";
+
+    .Title {
+      grid-area: title;
+    }
+
+    .coughing {
+      grid-area: coughing;
+    }
+
+    .distancing {
+      grid-area: distancing;
+    }
+
+    .Gathering {
+      grid-area: Gathering;
+    }
+
+    .Work {
+      grid-area: Work;
+    }
+
+    .Essential {
+      grid-area: Essential;
+    }
+}
+

@@ -5,12 +5,14 @@ import './App.scss';
 import MapView from './views/Map';
 import StatsView from './views/Stats';
 import NewsView from './views/News';
+import InfoView from './views/Info'
 
 enum Routes {
   Map,
   Stats,
   News,
-  PacMan
+  PacMan,
+  Info
 }
 
 interface Link {
@@ -37,6 +39,10 @@ function App() {
     {
       label: "Distraction",
       to: () => setRoute(Routes.PacMan)
+    },
+    {
+      label: "Info",
+      to: () => setRoute(Routes.Info)
     }
   ]
 
@@ -55,7 +61,8 @@ function App() {
 
       {route === Routes.Map && <MapView />}
       {route === Routes.Stats && <StatsView />}
-      {route === Routes.News && <NewsView />}
+      {route === Routes.News && <NewsView />}   
+      {route === Routes.Info && <InfoView />}
     </div>
   );
 }
