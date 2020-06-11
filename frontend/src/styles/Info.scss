@@ -2,8 +2,6 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 0.5fr 3fr 3fr 3fr;
-  // margin: 5%;
-  // margin-top: 4rem;
   padding-top: 4rem;
   padding-bottom: 8rem;
   gap: 2rem 1.75rem; 
@@ -87,8 +85,6 @@
 
       img {
         width: 320px;
-        // padding-right: -5%;
-      
       }
 
       .text {

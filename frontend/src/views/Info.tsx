@@ -14,7 +14,7 @@ const InfoView: React.FC<IProps> = () => {
     <Paper className="coughing" >
       <img src='https://github.com/kurtgalvin/LHL-Final/blob/Stretch/Infograph/frontend/docs/coughing.png?raw=true' alt='coughing' width="300" />
       <div className='text'>
-        Stay home if you're sick or showing any flue like symptoms.
+        Stay home if you're sick or showing any flu like symptoms.
       </div>
     </Paper>
     <Paper className="distancing">
