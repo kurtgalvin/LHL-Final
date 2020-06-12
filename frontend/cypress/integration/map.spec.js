@@ -5,7 +5,7 @@ describe("Appointments", () => {
   })
 
   it("should add a marker", () => {
-    cy.get("[placeholder='Enter a location']")
+    cy.get("[placeholder='Find a store']")
     .type("T&T")
   
     cy.server();
@@ -17,10 +17,6 @@ describe("Appointments", () => {
     cy.wait(['@markerPost']);
 
     cy.get('h4').should('contain', 'T&T Supermarket');
-
-
-
-
 
   })
 
