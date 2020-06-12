@@ -21,7 +21,7 @@ interface Link {
 }
 
 function App() {
-  const [route, setRoute] = useState<Routes>(Routes.Stats)
+  const [route, setRoute] = useState<Routes>(Routes.Map)
 
   const links: Link[] = [
     {
@@ -46,7 +46,7 @@ function App() {
     <div className="App">
       <Paper className="PaperHeader" elevation={3}>
         <div className="logo">
-          <img src="/virus.svg"/>
+          <img src="/virus.svg" alt="virus"/>
           <h2>VanCovid</h2>
         </div>
         <Tabs 
