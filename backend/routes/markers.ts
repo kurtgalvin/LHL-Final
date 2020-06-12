@@ -1,5 +1,6 @@
 const express = require('express');
 const router  = express.Router();
+const runDBreset = require('../bin/resetdb.js');
 
 
 module.exports = (db: any) => {
@@ -62,12 +63,18 @@ module.exports = (db: any) => {
     db.query("INSERT INTO stores (name, google_place_id, type, lat, lng) VALUES($1, $2, $3, $4, $5) RETURNING id ", queryParams)
     .then((data: any) => {
       const id = data.rows[0].id;
-      console.log(id);
+      
       db.query("INSERT INTO commodity_updates (store, commodity, stock_level) VALUES($1, 1, 1), ($1,2,1), ($1, 3, 1)", [id])
       .then( res.json({id}));
     }
       )
 
+
+  })
+
+  router.post("/resetDB", (req: any, res: any) => {
+    runDBreset();
+    res.json({success:true});
 
   })
 
