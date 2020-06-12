@@ -54,17 +54,25 @@ const populateMarkerData = function () {
 }
 
 
-
-try {
-  console.log(`-> Connecting to PG using ${connectionString} ...`);
-  client.connectSync(connectionString);
-  runSchemaFiles();
-  runSeedFiles();
-  populateMarkerData();
-  client.end();
-} catch (err) {
-  console.error(chalk.red(`Failed due to error: ${err}`));
-  client.end();
+const runDBreset = function () {
+  try {
+    console.log(`-> Connecting to PG using ${connectionString} ...`);
+    client.connectSync(connectionString);
+    runSchemaFiles();
+    runSeedFiles();
+    populateMarkerData();
+    client.end();
+  } catch (err) {
+    console.error(chalk.red(`Failed due to error: ${err}`));
+    client.end();
+  }
 }
+
+if(require.main === module) {
+  runDBreset();
+}
+
+
+module.exports = runDBreset;
 
 
