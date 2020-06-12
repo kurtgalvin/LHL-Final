@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Paper, Button } from '@material-ui/core'
-import { LineChart as ReLineChart, Brush } from 'recharts'
 
 import '../styles/Stats.scss'
 import canadaData from '../data/canada.json'
@@ -8,7 +7,6 @@ import globalData from '../data/global.json'
 import useToggleArray from '../hooks/useToggleArray'
 import GridButton from '../components/GridButton'
 import LineChart from '../components/charts/LineChart'
-import RadarChart from '../components/charts/RadarChart'
 import StackedBarChart from '../components/charts/StackedBarChart'
 
 interface IParam {
@@ -137,11 +135,18 @@ const countries: IParam[] = [
   }
 ]
 
+enum DailyRange {
+  Week,
+  Month,
+  All
+}
+
 export default () => {
   const [canada, setCanada] = useState<boolean>(true)
   const [argsSelected, toggleArg] = useToggleArray(["confirmed"])
   const [provincesSelected, toggleProvince] = useToggleArray(["AB", "BC",  "ON", "QC"])
   const [countriesSelected, toggleCountry] = useToggleArray(["Canada", "Iran", "France", "Russia"])
+  const [dailyRangeSelection, setDailyRangeSelection] = useState(DailyRange.Week)
 
   const dataLastIndex = canada ? (canadaData as any)[canadaData.length - 1] : (globalData as any)[globalData.length - 1]
   const currSelected = canada ? provincesSelected : countriesSelected
@@ -200,11 +205,30 @@ export default () => {
         <LineChart data={canada ? canadaData : globalData} regions={currSelected} dataArgs={argsSelected} brush={false} syncId="sync-me-up" />
       </Paper>
 
-      <div>
-        <ReLineChart>
-          <Brush />
-        </ReLineChart>
-      </div>
+      <Paper className="BarChartTitle" elevation={3}>
+        <h1>Cumulative</h1>
+      </Paper>
+
+      <Paper className="DailyLineChartTitle" elevation={3}>
+        <div className="DailyLineChartTitle__ButtonGroup">
+          <Button 
+            color="primary" 
+            variant={dailyRangeSelection === DailyRange.Week ? 'contained' : 'outlined'}
+            onClick={() => setDailyRangeSelection(DailyRange.Week)}
+          >Week</Button>
+          <Button 
+            color="primary" 
+            variant={dailyRangeSelection === DailyRange.Month ? 'contained' : 'outlined'}
+            onClick={() => setDailyRangeSelection(DailyRange.Month)}
+          >Month</Button>
+          <Button 
+            color="primary" 
+            variant={dailyRangeSelection === DailyRange.All ? 'contained' : 'outlined'}
+            onClick={() => setDailyRangeSelection(DailyRange.All)}
+          >All</Button>
+        </div>
+        <h1>Daily</h1>
+      </Paper>
 
       <Paper className="StackedBarChart" elevation={3}>
         <StackedBarChart data={dataLastIndex} regions={currSelected} />
