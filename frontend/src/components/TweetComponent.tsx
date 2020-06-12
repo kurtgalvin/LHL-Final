@@ -8,7 +8,7 @@ class TweetComponent extends React.Component <{data: any}> {
     return (
       <Paper className="tweet" elevation={7}>
             <img className="img" src={data.user.profile_image_url} alt={data.user.name}/>
-            <img className="logo" src='https://github.com/kurtgalvin/LHL-Final/blob/Stretch/Infograph/frontend/docs/twitter.png?raw=true' alt='logo'/>
+            <img className="logo" src='https://github.com/kurtgalvin/LHL-Final/blob/Stretch/Infograph/frontend/docs/twitter.png?raw=true' width= '30px' alt='logo'/>
             <div className="text">{data.text}</div>
           <div className="date">
             {new Date(data.created_at).toLocaleTimeString()}

@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "build": "tsc",
-    "start": "nodemon --watch './*.ts' --exec 'ts-node' server.ts ",
+    "start": "nodemon --watch './**/*.ts' --exec 'ts-node' server.ts ",
     "resetDB": "node bin/resetdb.js"
   },
   "author": "",

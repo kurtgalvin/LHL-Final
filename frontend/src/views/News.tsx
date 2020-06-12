@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import ArticleComponent from '../components/ArticleComponent'
 import socketIOClient from "socket.io-client";
 import TweetComponent from '../components/TweetComponent';
+import useTweetState from '../hooks/useTweetState';
 const NewsAPI = require('newsapi');
 let newsapi = new NewsAPI(process.env.REACT_APP_new_NEWSAPI);
+
 
 
 
@@ -26,41 +28,34 @@ function Articleslist() {
 
   }, []);
 
-  console.log(articles)
   return <div className="Articles">
     {articles.map((article, index) => (
       <ArticleComponent key={index} data={article} />
     ))}
   </div>
-
 };
 
 function Tweetlist() {
-  const [items, setItems] = useState<any>([]);
+  const [tweets, addTweets] = useTweetState([]);
+
   useEffect(() => {
     const socket = socketIOClient('/');
 
     socket.on('connect', () => {
-      console.log("Socket Connected");
-      socket.on("tweets", (data : any) => {
-        console.info(data);
-        // let newList = [data].concat(items.slice(0, 15));
-        setItems((oldState: any) => {
-          // {items: newList});
-          return [...oldState, data].slice(0, 7)
-        });
-      });
+      socket.on('tweets', addTweets)
     });
+
     socket.on('disconnect', () => {
       socket.off("tweets")
       socket.removeAllListeners();
       console.log("Socket Disconnected");
     });
   }, [])
-  console.log(items)
+
+
   return <div className= "Tweets">
-    {items.map((tweet: any, index: any) => (
-      <TweetComponent key={index} data={tweet} />
+    {tweets.map((tweet: any, index: any) => (
+      <TweetComponent key={tweet.id} data={tweet} />
     ))}
   </div>
 

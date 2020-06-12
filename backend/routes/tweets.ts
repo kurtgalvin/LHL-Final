@@ -1,3 +1,5 @@
+import { userInfo } from "os";
+
 const Twitter = require('twitter');
 
 export default (app : any, io : any) => {
@@ -8,58 +10,51 @@ export default (app : any, io : any) => {
     access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
   });
 
-  let socketConnection : any;
-  let twitterStream;
-
-  let twitterID = '1169723316669566976'
-  let twitterID2 = '724478906829426688'
-
-  const stream = () => {
-    console.log('Resuming for ' + twitterID);
-    twitter.stream('statuses/filter', { follow: twitterID }, (stream : any) => {
-      //{ track: Keywords }
-      stream.on('data', (tweet : any) => {
-        console.log(tweet)
-        sendMessage(tweet);
-      });
-
-      stream.on('error', (error : any) => {
-        console.log(error);
-      });
-
-      twitterStream = stream;
-    });
+  let socketConnection: any;
+  const sendMessage = (msg : any) => {
+    console.log("here", Array.isArray(msg), msg.text)
+    socketConnection.emit("tweets", msg);
   }
 
-  const stream2 = () => {
-    console.log('Resuming for ' + twitterID2);
-    twitter.stream('statuses/filter', { follow: twitterID2 }, (stream : any) => {
-      stream.on('data', (tweet : any) => {
-        sendMessage(tweet);
-      });
+  const twitterIDs = [
+    // '146569971', 
+    '724478906829426688'
+  ]
 
-      stream.on('error', (error : any) => {
-        console.log(error);
+  const stream = () => {
+    twitterIDs.forEach(twitterID => {
+      twitter.stream('statuses/filter', { follow: twitterID }, (stream : any) => {
+        stream.on('data', (tweet : any) => {
+          console.log("Stream")
+          sendMessage(tweet);
+        });
+  
+        stream.on('error', (error : any) => {
+          console.log("stream ERROR");
+        });
       });
+    })
+  }
 
-      twitterStream = stream;
-    });
+  const fetchRecentTweets = () => {
+    twitterIDs.forEach(twitterID => {
+      twitter.get('statuses/user_timeline', { track: twitterID }, function(error: any, tweets: any, response: any) {
+        if (!error) {
+          sendMessage(tweets.slice(0, 4));
+        } else {
+          console.log("fetch ERROR")
+        }
+      });
+    })
   }
 
   //Establishes socket connection.
   io.on("connection", (socket : any) => {
     socketConnection = socket;
+    fetchRecentTweets()
     stream();
-    stream2();
     socket.on("connection", () => console.log("Client connected"));
     socket.on("disconnect", () => console.log("Client disconnected"));
   });
-
-  const sendMessage = (msg : any) => {
-    if (msg.text.includes('RT')) {
-      return;
-    }
-    socketConnection.emit("tweets", msg);
-  }
 };
 
