@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Paper, Button } from '@material-ui/core'
+import { LineChart as ReLineChart, Brush } from 'recharts'
 
 import '../styles/Stats.scss'
 import canadaData from '../data/canada.json'
@@ -136,11 +137,7 @@ const countries: IParam[] = [
   }
 ]
 
-interface IProps {
-
-}
-
-export default ({}: IProps) => {
+export default () => {
   const [canada, setCanada] = useState<boolean>(true)
   const [argsSelected, toggleArg] = useToggleArray(["confirmed"])
   const [provincesSelected, toggleProvince] = useToggleArray(["AB", "BC",  "ON", "QC"])
@@ -156,7 +153,7 @@ export default ({}: IProps) => {
   return (
     <div className="Stats">
       <header>
-        <Paper className="toggle" elevation={3}>
+        <Paper className="CanadaGlobalToggle" elevation={3}>
           <Button 
             color="primary" 
             variant={canada ? 'contained' : 'outlined'}
@@ -168,16 +165,19 @@ export default ({}: IProps) => {
             onClick={() => setCanada(false)}
           >Global</Button>
         </Paper>
-        <Paper className="select" elevation={3}>
-          {args.map(i => <Button 
-              key={i.value}
-              color="primary" 
-              variant={argsSelected.includes(i.value) ? 'contained' : 'outlined'}
-              onClick={() => toggleArg(i.value)}
-            >
-              {i.title}
-            </Button>
-          )}
+        <Paper className="CaseTypeSelectors" elevation={3}>
+          <div className="CaseTypeSelectors__ButtonGroup">
+            {args.map(i => <Button 
+                key={i.value}
+                color="primary" 
+                variant={argsSelected.includes(i.value) ? 'contained' : 'outlined'}
+                onClick={() => toggleArg(i.value)}
+              >
+                {i.title}
+              </Button>
+            )}
+          </div>
+          <h1>Cumulative</h1>
         </Paper>
       </header>
       
@@ -196,16 +196,22 @@ export default ({}: IProps) => {
         })}
       </Paper>
 
-      <Paper className="LineChart" elevation={3}>
-        <LineChart data={canada ? canadaData : globalData} regions={currSelected} dataArgs={argsSelected} />
+      <Paper className="CumulativeLineChart" elevation={3}>
+        <LineChart data={canada ? canadaData : globalData} regions={currSelected} dataArgs={argsSelected} brush={false} syncId="sync-me-up" />
       </Paper>
+
+      <div>
+        <ReLineChart>
+          <Brush />
+        </ReLineChart>
+      </div>
 
       <Paper className="StackedBarChart" elevation={3}>
         <StackedBarChart data={dataLastIndex} regions={currSelected} />
       </Paper>
 
-      <Paper className="RadarChart" elevation={3}>
-        <RadarChart data={dataLastIndex} regions={currSelected} dataArgs={argsSelected} total={currSelectedTotal} />
+      <Paper className="DailyLineChart" elevation={3}>
+        <LineChart data={canada ? canadaData : globalData} regions={currSelected} dataArgs={argsSelected} brush={false} syncId="sync-me-up" />
       </Paper>
     </div>
   )
