@@ -154,6 +154,15 @@ export default () => {
   const currSelectedTotal = currSelected.reduce((total, prov) => {
     return total + dataLastIndex[`${prov}_confirmed`]
   }, 0)
+  
+  let currData: any[] | undefined
+  if (dailyRangeSelection === DailyRange.Week) {
+    currData = canada ? canadaData.slice(-7) : globalData.slice(-7)
+  } else if (dailyRangeSelection === DailyRange.Month) {
+    currData = canada ? canadaData.slice(-30) : globalData.slice(-30)
+  } else if (dailyRangeSelection === DailyRange.All) {
+    currData = canada ? canadaData : globalData
+  }
 
   return (
     <div className="Stats">
@@ -202,7 +211,7 @@ export default () => {
       </Paper>
 
       <Paper className="CumulativeLineChart" elevation={3}>
-        <LineChart data={canada ? canadaData : globalData} regions={currSelected} dataArgs={argsSelected} brush={false} syncId="sync-me-up" />
+        <LineChart data={(currData as any)} regions={currSelected} dataArgs={argsSelected} brush={false} syncId="sync-me-up" />
       </Paper>
 
       <Paper className="BarChartTitle" elevation={3}>
@@ -235,7 +244,7 @@ export default () => {
       </Paper>
 
       <Paper className="DailyLineChart" elevation={3}>
-        <LineChart data={canada ? canadaData : globalData} regions={currSelected} dataArgs={argsSelected} brush={false} syncId="sync-me-up" />
+        <LineChart data={(currData as any)} regions={currSelected} dataArgs={argsSelected} brush={false} syncId="sync-me-up" prefix="daily_" />
       </Paper>
     </div>
   )
