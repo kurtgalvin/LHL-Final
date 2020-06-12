@@ -18,10 +18,6 @@ describe("Appointments", () => {
 
     cy.get('h4').should('contain', 'T&T Supermarket');
 
-
-
-
-
   })
 
 })
