@@ -5,7 +5,7 @@ describe("Appointments", () => {
   })
 
   it("should add a marker", () => {
-    cy.get("[placeholder='Enter a location']")
+    cy.get("[placeholder='Find a store']")
     .type("T&T")
   
     cy.server();

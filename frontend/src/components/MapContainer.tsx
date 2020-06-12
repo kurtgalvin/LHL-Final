@@ -1,7 +1,7 @@
 import React from 'react';
 import { GoogleMap, useLoadScript, Marker, InfoWindow, MarkerClusterer } from '@react-google-maps/api';
 import Locate from './Locate';
-import {Paper, IconButton} from '@material-ui/core';
+import {Paper, IconButton, Tooltip} from '@material-ui/core';
 import {ToggleButtonGroup, ToggleButton} from '@material-ui/lab';
 import  ClearIcon from '@material-ui/icons/Clear';
 import  CheckIcon from '@material-ui/icons/Check';
@@ -155,7 +155,6 @@ function MapContainer() {
   }
 
 
-
   if (loadError) return <div> "Error loading maps" </div>;
   if (!isLoaded) return <div>"Loading"</div>;
    
@@ -163,17 +162,21 @@ function MapContainer() {
     <Paper className="map-wrapper" elevation={3}>
       <Locate panTo={panTo}/>
       <Search panTo={panTo} selectMarker={selectMarker}/>
-      <ToggleButtonGroup className="filters" aria-label="filters" orientation="vertical">
-        <ToggleButton  onClick={() => setFilters("tp")} selected={filters.includes("tp")} aria-label="has-toilet-paper">
-          <img src="/tp.svg" alt="toilet paper" className="icon"/>
-        </ToggleButton>
-        <ToggleButton onClick={() => setFilters("hs")} selected={filters.includes("hs")} aria-label="has-hand-sanitizer">
-          <img src="/hand-sanitizer.svg" alt="hand sanitizer" className="icon"/>
-        </ToggleButton>
-        <ToggleButton onClick={() => setFilters("mask")} selected={filters.includes("mask")} aria-label="has-masks">
-          <img src="/mask.svg" alt="masks" className="icon"/>
-        </ToggleButton>
-      </ToggleButtonGroup>
+      <Tooltip title={<React.Fragment>
+        <h2>Filter stores with stock</h2>
+      </React.Fragment>} placement="right" arrow>
+        <ToggleButtonGroup className="filters" aria-label="filters" orientation="vertical">
+          <ToggleButton  onClick={() => setFilters("tp")} selected={filters.includes("tp")} aria-label="has-toilet-paper">
+            <img src="/tp.svg" alt="toilet paper" className="icon"/>
+          </ToggleButton>
+          <ToggleButton onClick={() => setFilters("hs")} selected={filters.includes("hs")} aria-label="has-hand-sanitizer">
+            <img src="/hand-sanitizer.svg" alt="hand sanitizer" className="icon"/>
+          </ToggleButton>
+          <ToggleButton onClick={() => setFilters("mask")} selected={filters.includes("mask")} aria-label="has-masks">
+            <img src="/mask.svg" alt="masks" className="icon"/>
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </Tooltip>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
@@ -205,41 +208,51 @@ function MapContainer() {
 
 
          {selected ? (
+         
           <InfoWindow 
-            position={{lat: selected.lat, lng: selected.lng}} 
-            onCloseClick={() => setSelected(null)}
-          >
-              <div>
-                <h4>{selected.name}</h4>
-                <table>
-                  <tbody>
-                    <tr>
-                      <td><img className="icon" src="/tp.svg" alt="toilet paper icon" /> </td>
-                      <td>{selected.tp_stock}</td>
-                      <td><IconButton aria-label='in-stock' onClick={(event) => setStock('tp_stock', true)}>
-                          <CheckIcon/>
-                      </IconButton></td>
-                      <td><IconButton aria-label='out-of-stock' onClick={(event) => setStock('tp_stock', false)}><ClearIcon/></IconButton></td>
-                      <td><IconButton aria-label='unknown' onClick={(event) => setStock('tp_stock')}><HelpOutlineIcon/></IconButton></td>
-                    </tr>
-                    <tr>
-                      <td><img className="icon" src="/hand-sanitizer.svg" alt="hand sanitizer icon"/></td>
-                      <td>{selected.hs_stock}</td>
-                      <td><IconButton aria-label='in-stock'onClick={(event) => setStock('hs_stock', true)}><CheckIcon/></IconButton></td>
-                      <td><IconButton aria-label='out-of-stock' onClick={(event) => setStock('hs_stock', false)}><ClearIcon/></IconButton></td>
-                      <td><IconButton aria-label='unknown' onClick={(event) => setStock('hs_stock')}><HelpOutlineIcon/></IconButton></td>
-                    </tr>
-                    <tr>
-                      <td><img className="icon" src="/mask.svg" alt="mask icon"/></td>
-                      <td>{selected.mask_stock}</td>  
-                      <td><IconButton aria-label='in-stock'onClick={(event) => setStock('mask_stock', true)}><CheckIcon/></IconButton></td>
-                      <td><IconButton aria-label='out-of-stock'onClick={(event) => setStock('mask_stock', false)}><ClearIcon/></IconButton></td>  
-                      <td><IconButton aria-label='unknown' onClick={(event) => setStock('mask_stock')}><HelpOutlineIcon/></IconButton></td>
-                    </tr>  
-                  </tbody>
-                </table>
-              </div>
-           </InfoWindow>) : null}
+              position={{lat: selected.lat, lng: selected.lng}} 
+              onCloseClick={() => setSelected(null)}
+            >
+                <div>
+                  <h3>{selected.name}</h3>
+                  
+                  <table>
+                    <tbody>
+                    <Tooltip title={<h3>Update stock levels</h3>} placement="right" arrow> 
+                      <tr>
+                        <td><img className="icon" src="/tp.svg" alt="toilet paper icon" /> </td>
+                        <td>{selected.tp_stock}</td>
+                        <td><IconButton aria-label='in-stock' onClick={(event) => setStock('tp_stock', true)}>
+                            <CheckIcon/>
+                        </IconButton></td>
+                        <td><IconButton aria-label='out-of-stock' onClick={(event) => setStock('tp_stock', false)}><ClearIcon/></IconButton></td>
+                        <td><IconButton aria-label='unknown' onClick={(event) => setStock('tp_stock')}><HelpOutlineIcon/></IconButton></td>
+                      </tr>
+                      </Tooltip> 
+                      <Tooltip title={<h3>Update stock levels</h3>} placement="right" arrow>
+                      <tr>
+                        <td><img className="icon" src="/hand-sanitizer.svg" alt="hand sanitizer icon"/></td>
+                        <td>{selected.hs_stock}</td>
+                        <td><IconButton aria-label='in-stock'onClick={(event) => setStock('hs_stock', true)}><CheckIcon/></IconButton></td>
+                        <td><IconButton aria-label='out-of-stock' onClick={(event) => setStock('hs_stock', false)}><ClearIcon/></IconButton></td>
+                        <td><IconButton aria-label='unknown' onClick={(event) => setStock('hs_stock')}><HelpOutlineIcon/></IconButton></td>
+                      </tr>
+                      </Tooltip> 
+                      <Tooltip title={<h3>Update stock levels</h3>} placement="right" arrow>
+                      <tr>
+                        <td><img className="icon" src="/mask.svg" alt="mask icon"/></td>
+                        <td>{selected.mask_stock}</td>  
+                        <td><IconButton aria-label='in-stock'onClick={(event) => setStock('mask_stock', true)}><CheckIcon/></IconButton></td>
+                        <td><IconButton aria-label='out-of-stock'onClick={(event) => setStock('mask_stock', false)}><ClearIcon/></IconButton></td>  
+                        <td><IconButton aria-label='unknown' onClick={(event) => setStock('mask_stock')}><HelpOutlineIcon/></IconButton></td>
+                      </tr>
+                      </Tooltip>   
+                    </tbody>
+                  </table>
+                </div>
+            </InfoWindow>
+          
+           ) : null}
         
       </GoogleMap>
       </Paper>

@@ -45,7 +45,7 @@ export default function Search ({panTo, selectMarker}:SearchProps) {
           value={value} 
           onChange={(e:Event)=> { if(e.target) setValue((e.target as HTMLTextAreaElement).value)}}
           disabled={!ready}
-          placeholder="Enter a location"
+          placeholder="Find a store"
         />
         <ComboboxPopover >
           <ComboboxList>         {status === "OK" &&
