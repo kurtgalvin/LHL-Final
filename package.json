@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "build": "echo $PWD && cd ./frontend/ && npm run build && cd ../backend/ && npm run build",
+        "build": "echo $BUILD_DIR && cd ./frontend/ && npm run build && cd ../backend/ && npm run build",
         "start": "npm run start"
     }
 }
