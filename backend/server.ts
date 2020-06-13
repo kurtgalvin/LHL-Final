@@ -21,7 +21,7 @@ db.connect();
 // Express Configuration
 App.use(BodyParser.urlencoded({ extended: false }));
 App.use(BodyParser.json());
-App.use(Express.static('public'));
+// App.use(Express.static('public'));
 
 App.use(Express.static(path.join(__dirname, '../../frontend/build')));
 App.get('/', function(req, res) {
