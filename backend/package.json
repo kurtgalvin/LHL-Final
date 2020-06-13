@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "nodemon --watch './**/*.ts' --exec 'ts-node' server.ts ",
-    "resetDB": "node bin/resetdb.js"
+    "resetDB": "node bin/resetdb.js",
+    "prodStart": "node ./build/server.js"
   },
   "author": "",
   "license": "MIT",
