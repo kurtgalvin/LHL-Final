@@ -37,7 +37,12 @@ const runSeedFiles = function() {
 
 const populateMarkerData = function () {
   console.log(chalk.cyan(`-> Loading Marker data ...`));
-  const {markers} = require('../db/markerdata.ts');
+
+
+  const {supermarkets} = require('../db/supermarketData.ts');
+  const {pharmacies} = require('../db/pharmacyData.ts');
+  const markers = {...supermarkets, ...pharmacies };
+
   const query1 = "INSERT INTO stores (name, google_place_id, type, lat, lng) VALUES($1, $2, $3, $4, $5) RETURNING id ";
   const query2 = "INSERT INTO commodity_updates (store, commodity, stock_level) VALUES ($1, $2, $3)";
   for(const key in markers) {
