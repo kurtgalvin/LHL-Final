@@ -1,4 +1,7 @@
-data = require ( './google-places-supermarket-raw.js');
+const path = process.argv[2];
+const type = process.argv[3];
+
+data = require (path);
 
 // interface IMarker {
 //   id: number;
@@ -13,13 +16,12 @@ data = require ( './google-places-supermarket-raw.js');
 // }
 
 const markers = {};
-let id = 1;
 for(result of data.results){
   const marker = {};
-  marker.id = id;
+  marker.id = result.place_id;
   marker.name = result.name;
   marker.google_id = result.place_id;
-  marker.type = 'supermarket';
+  marker.type = type;
   marker.lat = result.geometry.location.lat;
   marker.lng = result.geometry.location.lng;
   marker.tp_stock = Math.floor(Math.random() * 3);
@@ -27,8 +29,8 @@ for(result of data.results){
   marker.mask_stock = Math.floor(Math.random() * 3);
 
 
-  markers[id] = marker;
-  id++;
+  markers[result.place_id] = marker;
+
 }
 
 console.log(markers);
