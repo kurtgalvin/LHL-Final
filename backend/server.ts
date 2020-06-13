@@ -23,9 +23,9 @@ App.use(BodyParser.urlencoded({ extended: false }));
 App.use(BodyParser.json());
 App.use(Express.static('public'));
 
-App.use(Express.static(path.join(__dirname, '../frontend/build')));
+App.use(Express.static(path.join(__dirname, '../../frontend/build')));
 App.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+  res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));
 });
 
 // register routes
