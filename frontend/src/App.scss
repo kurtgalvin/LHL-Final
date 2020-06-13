@@ -2,12 +2,15 @@
   .PaperHeader {
     width: 98%;
     margin: 5px auto;
+    padding-top: 15px;
     display: grid;
     grid-template-columns: 1fr 4fr 1fr;
     grid-template-areas: "logo tabs .";
 
     .logo {
       grid-area: logo;
+      padding-bottom: 6.5px;
+      padding-left: 8px;
       display: flex;
       align-items: center;
 
