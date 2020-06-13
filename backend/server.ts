@@ -1,3 +1,4 @@
+console.log('RUNNING FROM RIGHT HERE LOOK AT ME')
 require('dotenv').config();
 import Express from 'express'
 import BodyParser from 'body-parser';
