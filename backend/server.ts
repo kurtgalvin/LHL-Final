@@ -8,7 +8,7 @@ import path from 'path';
 import tweets from './routes/tweets'
 
 const App = Express();
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 const server = http.createServer(App);
 const io = socketio(server);
 
