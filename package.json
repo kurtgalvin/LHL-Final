@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "scripts": {
         "build": "cd ./frontend && npm i && npm run build && cd ../backend && npm i && npm run build",
-        "start": "npm run start"
+        "start": "npm run prodStart"
     },
     "engines": {
         "node": "10.16.1"
