@@ -78,6 +78,7 @@ if(require.main === module) {
 }
 
 
-module.exports = runDBreset;
+// module.exports = runDBreset;
+export default runDBreset
 
 
