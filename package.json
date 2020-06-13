@@ -4,5 +4,8 @@
     "scripts": {
         "build": "cd ./frontend && npm i && npm run build && cd ../backend && npm i && npm run build",
         "start": "npm run start"
+    },
+    "engines": {
+        "node": "10.16.1"
     }
 }
