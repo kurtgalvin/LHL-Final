@@ -58,7 +58,12 @@ def canada(df):
         p_data = p_data.groupby(['date', 'country', 'month', 'day', 'year'], as_index=False).sum()
 
         min_data = p_data[['month', 'day', 'year', 'date', 'confirmed', 'deaths', 'recovered']]
-        min_data[f'{provinces[p]}_active'] = min_data.confirmed - (min_data.deaths + min_data.recovered)    
+        min_data[f'{provinces[p]}_active'] = min_data.confirmed - (min_data.deaths + min_data.recovered)
+
+        min_data[f'daily_{provinces[p]}_confirmed'] = min_data.confirmed - min_data.confirmed.shift(1)
+        min_data[f'daily_{provinces[p]}_deaths'] = min_data.deaths - min_data.deaths.shift(1)
+        min_data[f'daily_{provinces[p]}_recovered'] = min_data.recovered - min_data.recovered.shift(1)
+        min_data[f'daily_{provinces[p]}_active'] = min_data[f'{provinces[p]}_active'] - min_data[f'{provinces[p]}_active'].shift(1)
 
         min_data.rename(columns={
             'confirmed': f'{provinces[p]}_confirmed',
@@ -82,6 +87,11 @@ def global_(df):
 
         min_data = p_data[['month', 'day', 'year', 'date', 'confirmed', 'deaths', 'recovered']]
         min_data[f'{c}_active'] = min_data.confirmed - (min_data.deaths + min_data.recovered)
+
+        min_data[f'daily_{c}_confirmed'] = min_data.confirmed - min_data.confirmed.shift(1)
+        min_data[f'daily_{c}_deaths'] = min_data.deaths - min_data.deaths.shift(1)
+        min_data[f'daily_{c}_recovered'] = min_data.recovered - min_data.recovered.shift(1)
+        min_data[f'daily_{c}_active'] = min_data[f'{c}_active'] - min_data[f'{c}_active'].shift(1)
 
         min_data.rename(columns={
             'confirmed': f'{c}_confirmed',
