@@ -1,11 +1,9 @@
-console.log('RUNNING FROM RIGHT HERE LOOK AT ME')
 require('dotenv').config();
 import Express from 'express'
 import BodyParser from 'body-parser';
 import socketio from 'socket.io'
 import http from 'http'
 import path from 'path';
-// const tweets = require ('./routes/tweets')
 import tweets from './routes/tweets'
 
 const App = Express();
@@ -15,7 +13,7 @@ const io = socketio(server);
 
 // PG database client/connection setup
 const { Pool } = require('pg');
-const dbParams = require('./lib/db.js');
+import dbParams from './lib/db'
 const db = new Pool(dbParams);
 db.connect();
 

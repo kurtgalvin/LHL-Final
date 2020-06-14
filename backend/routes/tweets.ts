@@ -2,43 +2,48 @@ import { userInfo } from "os";
 
 const Twitter = require('twitter');
 
+let twitter = new Twitter({
+  consumer_key: process.env.CONSUMER_KEY,
+  consumer_secret: process.env.CONSUMER_SECRET,
+  access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
+  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+});
+
+
 export default (app : any, io : any) => {
-  let twitter = new Twitter({
-    consumer_key: process.env.CONSUMER_KEY,
-    consumer_secret: process.env.CONSUMER_SECRET,
-    access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
-    access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
-  });
 
   let socketConnection: any;
   const sendMessage = (msg : any) => {
-    console.log("here", Array.isArray(msg), msg.text)
     socketConnection.emit("tweets", msg);
   }
 
   const twitterIDs = [
-    // '146569971', 
-    '724478906829426688'
+    '724478906829426688',
+    '146569971', 
+    '141379865'
   ]
 
   const stream = () => {
-    twitterIDs.forEach(twitterID => {
-      twitter.stream('statuses/filter', { follow: twitterID }, (stream : any) => {
-        stream.on('data', (tweet : any) => {
-          console.log("Stream")
+    const params = { follow: twitterIDs.join(',') };
+    twitter.stream('statuses/filter', params, (stream: any) => {
+      stream.on('data', (tweet: any) => {
+        if (!tweet.msg.include("RT")) {
           sendMessage(tweet);
-        });
-  
-        stream.on('error', (error : any) => {
-          console.log("stream ERROR");
-        });
+        } else {
+          console.log('RT >>>', tweet.msg)
+        }
+      });
+
+      stream.on('error', (error: any) => {
+        console.log(error, "^^^ stream ERROR");
       });
     })
   }
 
   const fetchRecentTweets = () => {
     twitterIDs.forEach(twitterID => {
-      twitter.get('statuses/user_timeline', { track: twitterID }, function(error: any, tweets: any, response: any) {
+      const params = { user_id: twitterID, include_rts: false }
+      twitter.get('statuses/user_timeline', params, (error: any, tweets: any, response: any) => {
         if (!error) {
           sendMessage(tweets.slice(0, 4));
         } else {
