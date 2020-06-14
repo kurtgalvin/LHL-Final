@@ -25,7 +25,6 @@ const recentTweetsCache: any = {
 const fetchRecentTweets = (socket: any) => {
   const delay = 15 * 60 * 1000
   if (!recentTweetsCache.lastUpdate || recentTweetsCache.lastUpdate < Date.now() - delay) {
-    console.log("NO CACHE");
     recentTweetsCache.tweets = [];
     twitterIDs.forEach(twitterID => {
       const params = { user_id: twitterID, include_rts: false }
@@ -40,7 +39,6 @@ const fetchRecentTweets = (socket: any) => {
       });
     })
   } else {
-    console.log("CACHE")
     socket.emit(EMIT_TWEET, recentTweetsCache.tweets)
   }
 }
@@ -52,13 +50,11 @@ const stream = (socket: any) => {
       if (!tweet.msg.include("RT")) {
         recentTweetsCache.tweets.push(tweet)
         socket.emit(EMIT_TWEET, tweet)
-      } else {
-        console.log('RT >>>', tweet.msg)
       }
     });
 
     stream.on('error', (error: any) => {
-      console.log("^^^ stream ERROR");
+      console.log("stream ERROR", error);
     });
   })
 }
