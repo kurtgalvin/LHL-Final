@@ -789,4 +789,5 @@ const supermarkets = { ChIJH5e154dxhlQRYbkQsdZpyV0:
      hs_stock: 1,
      mask_stock: 2 } }
 
-module.exports = {supermarkets};
+// module.exports = {supermarkets};
+export default supermarkets;

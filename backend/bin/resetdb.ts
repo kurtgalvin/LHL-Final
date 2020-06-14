@@ -6,6 +6,9 @@ const fs = require('fs');
 const chalk = require('chalk');
 const Client = require('pg-native');
 
+import supermarkets from '../db/supermarketData'
+import pharmacies from '../db/pharmacyData'
+
 
 // PG connection setup
 const connectionString = process.env.DATABASE_URL ||
@@ -38,10 +41,7 @@ const runSeedFiles = function() {
 const populateMarkerData = function () {
   console.log(chalk.cyan(`-> Loading Marker data ...`));
 
-
-  const {supermarkets} = require('../db/supermarketData.ts');
-  const {pharmacies} = require('../db/pharmacyData.ts');
-  const markers = {...supermarkets, ...pharmacies };
+  const markers: any = { ...supermarkets, ...pharmacies };
 
   const query1 = "INSERT INTO stores (name, google_place_id, type, lat, lng) VALUES($1, $2, $3, $4, $5) RETURNING id ";
   const query2 = "INSERT INTO commodity_updates (store, commodity, stock_level) VALUES ($1, $2, $3)";

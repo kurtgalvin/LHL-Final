@@ -798,4 +798,5 @@ const pharmacies = { ChIJTQrs1Q11hlQR5iQ150tpjgQ:
     tp_stock: 0,
     hs_stock: 2,
     mask_stock: 2 } }
-module.exports = {pharmacies};
+// module.exports = {pharmacies};
+export default pharmacies;
