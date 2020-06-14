@@ -1,6 +1,6 @@
 let dbParams = {};
 if (process.env.DATABASE_URL) {
-  dbParams.connectionString = process.env.DATABASE_URL;
+  (dbParams as any).connectionString = process.env.DATABASE_URL;
 } else {
   dbParams = {
     host: process.env.DB_HOST,

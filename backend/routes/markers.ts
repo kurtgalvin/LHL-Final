@@ -1,6 +1,7 @@
 const express = require('express');
 const router  = express.Router();
-const runDBreset = require('../bin/resetdb.js');
+// const runDBreset = require('../bin/resetdb.js');
+import runDBreset from '../bin/resetdb'
 
 
 module.exports = (db: any) => {
