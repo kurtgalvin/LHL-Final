@@ -4,7 +4,6 @@ export default (initTweets: any[]): [any[], (tweet: any | any[]) => void] => {
   const [tweets, setTweets] = useState(initTweets);
 
   const addTweet = (tweet: any | any[]) => {
-    console.log("NEW TWEET")
     setTweets(oldState => {
       const filteredResult: any = {};
       const result = Array.isArray(tweet) ? [...tweet, ...oldState] : [tweet, ...oldState];

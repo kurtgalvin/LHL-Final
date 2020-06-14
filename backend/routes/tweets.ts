@@ -50,6 +50,7 @@ const stream = (socket: any) => {
   twitter.stream('statuses/filter', params, (stream: any) => {
     stream.on('data', (tweet: any) => {
       if (!tweet.msg.include("RT")) {
+        recentTweetsCache.tweets.push(tweet)
         socket.emit(EMIT_TWEET, tweet)
       } else {
         console.log('RT >>>', tweet.msg)
