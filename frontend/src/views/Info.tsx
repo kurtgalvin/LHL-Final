@@ -45,7 +45,7 @@ const InfoView: React.FC<IProps> = () => {
       </div>
     </Paper>
     <Paper className="Logo">
-      <a href="https://vancouver.ca/home-property-development/covid-19-coronavirus-within-vancouver.aspx" target="_blank">
+      <a href="https://vancouver.ca/home-property-development/covid-19-coronavirus-within-vancouver.aspx" target="_blank" rel="noopener noreferrer">
       <img src='https://github.com/kurtgalvin/LHL-Final/blob/master/frontend/docs/logo.png?raw=true' alt='logo' width="300" />
       </a>
       <div className="text">

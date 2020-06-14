@@ -13,7 +13,9 @@ class TweetComponent extends React.Component <{data: any}> {
           <div className="date">
             {new Date(data.created_at).toLocaleTimeString()}
           </div>
-            <a className="username" href={`https://twitter.com/${data.user.screen_name}`} target="_blank">{`@${data.user.screen_name}`}</a>
+            <a className="username" href={`https://twitter.com/${data.user.screen_name}`} target="_blank" rel="noopener noreferrer">
+              {`@${data.user.screen_name}`}
+            </a>
       </Paper>
     );
   }
