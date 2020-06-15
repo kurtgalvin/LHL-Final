@@ -1,23 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import ArticleComponent from '../components/ArticleComponent'
 import socketIOClient from "socket.io-client";
+import axios from 'axios';
+
+import ArticleComponent from '../components/ArticleComponent'
 import TweetComponent from '../components/TweetComponent';
 import useTweetState from '../hooks/useTweetState';
 
 function Articleslist() {
   const [articles, setArticles] = useState([]);
   useEffect(() => {
-    fetch('https://api.smartable.ai/coronavirus/news/CA', {
-      headers: {
-        "Subscription-Key": (process.env.SUBSCRIPTION_KEY as string)
-      }
-    })
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data: any) {
-        setArticles(data.news);
-        console.log(data.news);
+    axios.get("/api/news")
+      .then(res => {
+        setArticles(res.data.articles)
       })
   }, [])
   return <div className="Articles">
@@ -44,19 +38,16 @@ function Tweetlist() {
     });
   }, [])
 
-
   return <div className= "Tweets">
-    {tweets.map((tweet: any, index: any) => (
+    {tweets.slice(0, 4).map((tweet: any, index: any) => (
       <TweetComponent key={tweet.id} data={tweet} />
     ))}
   </div>
-
 };
 
 interface IProps {
 
 }
-
 
 const NewsView: React.FC<IProps> = () => {
   return (

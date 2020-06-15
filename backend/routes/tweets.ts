@@ -1,5 +1,4 @@
 import { userInfo } from "os";
-
 import Twitter from 'twitter';
 
 const EMIT_TWEET = "tweets"
