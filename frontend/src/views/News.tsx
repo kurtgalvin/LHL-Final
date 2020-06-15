@@ -39,7 +39,7 @@ function Tweetlist() {
   }, [])
 
   return <div className= "Tweets">
-    {tweets.map((tweet: any, index: any) => (
+    {tweets.slice(0, 4).map((tweet: any, index: any) => (
       <TweetComponent key={tweet.id} data={tweet} />
     ))}
   </div>
