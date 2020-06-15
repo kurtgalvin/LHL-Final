@@ -1,25 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import ArticleComponent from '../components/ArticleComponent'
 import socketIOClient from "socket.io-client";
+import axios from 'axios';
+
+import ArticleComponent from '../components/ArticleComponent'
 import TweetComponent from '../components/TweetComponent';
 import useTweetState from '../hooks/useTweetState';
 
 function Articleslist() {
   const [articles, setArticles] = useState([]);
   useEffect(() => {
-    fetch('https://api.smartable.ai/coronavirus/news/CA', {
-      headers: {
-        "Subscription-Key": (process.env.SUBSCRIPTION_KEY as string)
-      }
-    })
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data: any) {
-        if (data.news){
-          setArticles(data.news.filter((a : any) => a.images !== null));
-          console.log(data.news);
-        }
+    axios.get("/api/news")
+      .then(res => {
+        setArticles(res.data.articles)
       })
   }, [])
   return <div className="Articles">
