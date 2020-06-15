@@ -3,31 +3,23 @@ import ArticleComponent from '../components/ArticleComponent'
 import socketIOClient from "socket.io-client";
 import TweetComponent from '../components/TweetComponent';
 import useTweetState from '../hooks/useTweetState';
-const NewsAPI = require('newsapi');
-let newsapi = new NewsAPI(process.env.REACT_APP_new_NEWSAPI);
-
-
-
 
 function Articleslist() {
   const [articles, setArticles] = useState([]);
-  // try {
   useEffect(() => {
-    newsapi.v2.topHeadlines({
-      // sources: 'vancouver sun',
-      q: 'covid-19',
-      category: 'health',
-      language: 'en',
-      country: 'ca',
-      pageSize: '6'
-    }).then((response : any) => {
-       setArticles(response.articles);
-    }).catch((err: Error) => {
-      console.log(err)
+    fetch('https://api.smartable.ai/coronavirus/news/CA', {
+      headers: {
+        "Subscription-Key": (process.env.SUBSCRIPTION_KEY as string)
+      }
     })
-
-  }, []);
-
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data: any) {
+        setArticles(data.news);
+        console.log(data.news);
+      })
+  }, [])
   return <div className="Articles">
     {articles.map((article, index) => (
       <ArticleComponent key={index} data={article} />
