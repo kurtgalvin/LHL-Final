@@ -29,12 +29,14 @@ App.get('/', function(req, res) {
 
 // register routes
 const markersRouter = require("./routes/markers");
+const newsRouter = require("./routes/news")
+
 // mount routes
 App.use("/api/markers", markersRouter(db));
+App.use("/api/news", newsRouter());
 
 //Tweet stream
 tweets(App, io)
-
 
 server.listen(PORT, () => {
   console.log(`Express seems to be listening on port ${PORT} so that's pretty good 👍`);

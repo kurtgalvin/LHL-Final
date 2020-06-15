@@ -1,33 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import ArticleComponent from '../components/ArticleComponent'
 import socketIOClient from "socket.io-client";
+import axios from 'axios';
+
+import ArticleComponent from '../components/ArticleComponent'
 import TweetComponent from '../components/TweetComponent';
 import useTweetState from '../hooks/useTweetState';
-const NewsAPI = require('newsapi');
-let newsapi = new NewsAPI(process.env.REACT_APP_new_NEWSAPI);
-
-
-
 
 function Articleslist() {
   const [articles, setArticles] = useState([]);
-  // try {
   useEffect(() => {
-    newsapi.v2.topHeadlines({
-      // sources: 'vancouver sun',
-      q: 'covid-19',
-      category: 'health',
-      language: 'en',
-      country: 'ca',
-      pageSize: '6'
-    }).then((response : any) => {
-       setArticles(response.articles);
-    }).catch((err: Error) => {
-      console.log(err)
-    })
-
-  }, []);
-
+    axios.get("/api/news")
+      .then(res => {
+        setArticles(res.data.articles)
+      })
+  }, [])
   return <div className="Articles">
     {articles.map((article, index) => (
       <ArticleComponent key={index} data={article} />
@@ -52,19 +38,16 @@ function Tweetlist() {
     });
   }, [])
 
-
   return <div className= "Tweets">
     {tweets.map((tweet: any, index: any) => (
       <TweetComponent key={tweet.id} data={tweet} />
     ))}
   </div>
-
 };
 
 interface IProps {
 
 }
-
 
 const NewsView: React.FC<IProps> = () => {
   return (
