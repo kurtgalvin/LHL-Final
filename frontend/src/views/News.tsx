@@ -16,8 +16,10 @@ function Articleslist() {
         return response.json();
       })
       .then(function (data: any) {
-        setArticles(data.news);
-        console.log(data.news);
+        if (data.news){
+          setArticles(data.news.filter((a : any) => a.images !== null));
+          console.log(data.news);
+        }
       })
   }, [])
   return <div className="Articles">
@@ -44,19 +46,16 @@ function Tweetlist() {
     });
   }, [])
 
-
   return <div className= "Tweets">
     {tweets.map((tweet: any, index: any) => (
       <TweetComponent key={tweet.id} data={tweet} />
     ))}
   </div>
-
 };
 
 interface IProps {
 
 }
-
 
 const NewsView: React.FC<IProps> = () => {
   return (
