@@ -55,6 +55,7 @@ const stream = (socket: any) => {
 
     stream.on('error', (error: any) => {
       console.log("stream ERROR");
+      console.log(error);
     });
   })
 }
