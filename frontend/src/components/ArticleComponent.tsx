@@ -9,7 +9,12 @@ class ArticleComponent extends React.Component <{data: object}> {
     return (
       <Paper className="Article" elevation={3}>
         <a href={data['webUrl']} target="_blank">
-          <img src={data.images ? data['images'][0].url : ""} alt={data['images']} width="300" />
+          <img 
+            src={data.images ? data['images'][0].url : ""} 
+            alt="Article Image" 
+            width="300" 
+            onError={(e: any)=>{e.target.onerror = null; e.target.src="/virus.svg"}} 
+          />
         </a>
         <div className="overlay">
           <div className="text">Read More</div>
