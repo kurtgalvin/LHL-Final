@@ -11,7 +11,7 @@ class TweetComponent extends React.Component <{data: any}> {
             <img className="logo" src='https://github.com/kurtgalvin/LHL-Final/blob/Stretch/Infograph/frontend/docs/twitter.png?raw=true' width= '30px' alt='logo'/>
             <div className="text">{data.text}</div>
           <div className="date">
-            {new Date(data.created_at).toLocaleTimeString()}
+            {new Date(data.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </div>
             <a className="username" href={`https://twitter.com/${data.user.screen_name}`} target="_blank" rel="noopener noreferrer">
               {`@${data.user.screen_name}`}
