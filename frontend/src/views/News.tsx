@@ -25,7 +25,10 @@ function Tweetlist() {
   const [tweets, addTweets] = useTweetState([]);
 
   useEffect(() => {
-    const socket = socketIOClient('/');
+    const socket = socketIOClient('/', {
+      transports: ['websocket'],
+      autoConnect: true
+    });
 
     socket.on('connect', () => {
       socket.on('tweets', addTweets)
@@ -36,6 +39,10 @@ function Tweetlist() {
       socket.removeAllListeners();
       console.log("Socket Disconnected");
     });
+
+    return () => {
+      socket.disconnect()
+    }
   }, [])
 
   return <div className= "Tweets">

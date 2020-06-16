@@ -9,7 +9,12 @@ import tweets from './routes/tweets'
 const App = Express();
 const PORT = process.env.PORT || 8080;
 const server = http.createServer(App);
-const io = socketio(server);
+const io = socketio(server, {
+  pingInterval: 25000,
+  pingTimeout: 60000,
+  transports: ['websocket'],
+  allowUpgrades: false
+});
 
 // PG database client/connection setup
 const { Pool } = require('pg');
