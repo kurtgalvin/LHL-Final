@@ -42,15 +42,14 @@ const fetchRecentTweets = (socket: any) => {
   }
 }
 
-const stream = (socket: any) => {
-  console.log("CALLED STREAM")
+const stream = (io: any) => {
   const params = { follow: twitterIDs.join(',') };
   twitter.stream('statuses/filter', params, (stream: any) => {
     stream.on('data', (tweet: any) => {
       if (tweet.text && !tweet.text.includes("RT")) {
         console.log(tweet.text)
         recentTweetsCache.tweets.push(tweet)
-        socket.emit(EMIT_TWEET, tweet)
+        io.emit(EMIT_TWEET, tweet)
       }
     });
 
@@ -63,9 +62,9 @@ const stream = (socket: any) => {
 
 export default (app: any, io: any) => {
   //Establishes socket connection.
+  stream(io);
   io.on("connection", (socket: any) => {
     fetchRecentTweets(socket)
-    stream(socket);
     socket.on("connection", () => console.log("Client connected"));
     socket.on("disconnect", (reason: any) => {
       console.log("Client disconnected")
