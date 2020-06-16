@@ -36,6 +36,10 @@ function Tweetlist() {
       socket.removeAllListeners();
       console.log("Socket Disconnected");
     });
+
+    return () => {
+      socket.disconnect()
+    }
   }, [])
 
   return <div className= "Tweets">

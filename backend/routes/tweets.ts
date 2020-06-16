@@ -46,7 +46,8 @@ const stream = (socket: any) => {
   const params = { follow: twitterIDs.join(',') };
   twitter.stream('statuses/filter', params, (stream: any) => {
     stream.on('data', (tweet: any) => {
-      if (tweet.msg && !tweet.msg.include("RT")) {
+      if (tweet.text && !tweet.text.include("RT")) {
+        console.log(tweet.text)
         recentTweetsCache.tweets.push(tweet)
         socket.emit(EMIT_TWEET, tweet)
       }
