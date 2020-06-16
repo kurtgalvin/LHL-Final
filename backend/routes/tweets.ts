@@ -46,8 +46,8 @@ const stream = (io: any) => {
   const params = { follow: twitterIDs.join(',') };
   twitter.stream('statuses/filter', params, (stream: any) => {
     stream.on('data', (tweet: any) => {
-      console.log("USER ID >>>", tweet.user.id)
-      if (tweet.text && twitterIDs.includes(tweet.user.id)) {
+      console.log("USER ID >>>", tweet.user.id_str)
+      if (tweet.text && twitterIDs.includes(tweet.user.id_str)) {
         console.log(tweet.text);
         recentTweetsCache.tweets.push(tweet);
         io.emit(EMIT_TWEET, tweet);
