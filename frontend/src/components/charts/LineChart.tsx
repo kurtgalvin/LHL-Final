@@ -32,7 +32,7 @@ export default ({ data, regions, dataArgs, brush=true, syncId="", prefix="" }: I
     <ResponsiveContainer width="100%" height="100%" >
       <LineChart data={data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }} syncId={syncId}>
         <XAxis dataKey="date" hide={false} />
-        <Tooltip formatter={(value, name) => [value, name.replace('_', ' ')]} />
+        <Tooltip formatter={(value, name) => [value, name.replace(prefix, ' ').replace('_', ' ')]} />
         {lines}
         {brush && (
           <Brush dataKey="date" startIndex={50}>
