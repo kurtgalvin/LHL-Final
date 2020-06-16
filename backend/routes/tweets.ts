@@ -26,7 +26,7 @@ const fetchRecentTweets = (socket: any) => {
   if (!recentTweetsCache.lastUpdate || recentTweetsCache.lastUpdate < Date.now() - delay) {
     recentTweetsCache.tweets = [];
     twitterIDs.slice(1).forEach(twitterID => {
-      const params = { user_id: twitterID, include_rts: false };
+      const params = { user_id: twitterID, include_rts: false, exclude_replies: true };
       twitter.get('statuses/user_timeline', params, (error: any, tweets: any, response: any) => {
         if (!error) {
           recentTweetsCache.tweets = [...tweets.slice(0, 4), ...recentTweetsCache.tweets];
@@ -46,7 +46,7 @@ const stream = (io: any) => {
   const params = { follow: twitterIDs.join(',') };
   twitter.stream('statuses/filter', params, (stream: any) => {
     stream.on('data', (tweet: any) => {
-      if (tweet.text && twitterIDs.includes(tweet.user.id_str)) {
+      if (tweet.text && twitterIDs.includes(tweet.user.id_str) && !tweet.in_reply_to_screen_name) {
         recentTweetsCache.tweets.push(tweet);
         io.emit(EMIT_TWEET, tweet);
       }
