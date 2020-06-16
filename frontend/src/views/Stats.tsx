@@ -122,8 +122,8 @@ const countries: IParam[] = [
     value: "Mexico"
   },
   {
-    title: "UK",
-    value: "UK"
+    title: "China",
+    value: "China"
   },
   {
     title: "France",
@@ -146,7 +146,7 @@ export default () => {
   const [canada, setCanada] = useState<boolean>(true)
   const [argsSelected, toggleArg] = useToggleArray(["confirmed"])
   const [provincesSelected, toggleProvince] = useToggleArray(["AB", "BC",  "ON", "QC"])
-  const [countriesSelected, toggleCountry] = useToggleArray(["Canada", "Iran", "France", "Russia"])
+  const [countriesSelected, toggleCountry] = useToggleArray(["Canada", "Iran", "France", "China"])
   const [dailyRangeSelection, setDailyRangeSelection] = useState(DailyRange.Month)
 
   const dataLastIndex = canada ? (canadaData as any)[canadaData.length - 1] : (globalData as any)[globalData.length - 1]
@@ -193,7 +193,7 @@ export default () => {
             </Button>
           )}
         </div>
-        <h1>Cumulative</h1>
+        <h1>Cumulative Cases</h1>
       </Paper>
       
       <Paper className="ButtonGroup" elevation={3}>
@@ -216,7 +216,7 @@ export default () => {
       </Paper>
 
       <Paper className="BarChartTitle" elevation={3}>
-        <h1>Cumulative</h1>
+        <h1>Cumulative Cases</h1>
       </Paper>
 
       <Paper className="DailyLineChartTitle" elevation={3}>
@@ -242,7 +242,7 @@ export default () => {
             onClick={() => setDailyRangeSelection(DailyRange.All)}
           >All</Button>
         </div>
-        <h1>Daily</h1>
+        <h1>New Cases</h1>
       </Paper>
 
       <Paper className="StackedBarChart" elevation={3}>
