@@ -4,9 +4,9 @@ import Twitter from 'twitter';
 const EMIT_TWEET = "tweets";
 
 const twitterIDs = [
-  '724478906829426688', 
-  '141379865',
-  '36375825'
+  '724478906829426688', // Calvin
+  '141379865',          // CDCofBC
+  '36375825'            // GovCanHealth
 ];
 
 let twitter = new Twitter({
