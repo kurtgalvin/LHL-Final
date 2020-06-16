@@ -4,9 +4,9 @@ import Twitter from 'twitter';
 const EMIT_TWEET = "tweets";
 
 const twitterIDs = [
-  '724478906829426688',
-  '146569971', 
-  '141379865'
+  '724478906829426688', // Calvin
+  '141379865',          // CDCofBC
+  '36375825'            // GovCanHealth
 ];
 
 let twitter = new Twitter({
@@ -25,7 +25,7 @@ const fetchRecentTweets = (socket: any) => {
   const delay = 15 * 60 * 1000;
   if (!recentTweetsCache.lastUpdate || recentTweetsCache.lastUpdate < Date.now() - delay) {
     recentTweetsCache.tweets = [];
-    twitterIDs.forEach(twitterID => {
+    twitterIDs.slice(1).forEach(twitterID => {
       const params = { user_id: twitterID, include_rts: false };
       twitter.get('statuses/user_timeline', params, (error: any, tweets: any, response: any) => {
         if (!error) {
@@ -44,20 +44,15 @@ const fetchRecentTweets = (socket: any) => {
 
 const stream = (io: any) => {
   const params = { follow: twitterIDs.join(',') };
-  console.log
   twitter.stream('statuses/filter', params, (stream: any) => {
     stream.on('data', (tweet: any) => {
-      if (tweet.text && !tweet.text.includes("RT")) {
-        console.log(tweet.text);
+      if (tweet.text && twitterIDs.includes(tweet.user.id_str)) {
         recentTweetsCache.tweets.push(tweet);
         io.emit(EMIT_TWEET, tweet);
       }
     });
 
-    stream.on('error', (error: any) => {
-      console.log("stream ERROR");
-      console.log(error);
-    });
+    stream.on('error', (error: any) => console.log("stream ERROR", error));
   })
 }
 
@@ -67,10 +62,7 @@ export default (app: any, io: any) => {
   io.on("connection", (socket: any) => {
     fetchRecentTweets(socket);
     socket.on("connection", () => console.log("Client connected"));
-    socket.on("disconnect", (reason: any) => {
-      console.log("Client disconnected");
-      console.log(reason);
-    });
+    socket.on("disconnect", (reason: any) => console.log("Client disconnected >>", reason));
   });
 };
 
