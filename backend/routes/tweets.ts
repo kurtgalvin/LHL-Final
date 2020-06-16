@@ -4,9 +4,9 @@ import Twitter from 'twitter';
 const EMIT_TWEET = "tweets";
 
 const twitterIDs = [
-  '724478906829426688',
-  '146569971', 
-  '141379865'
+  '724478906829426688', 
+  '141379865',
+  '36375825'
 ];
 
 let twitter = new Twitter({
@@ -44,10 +44,10 @@ const fetchRecentTweets = (socket: any) => {
 
 const stream = (io: any) => {
   const params = { follow: twitterIDs.join(',') };
-  console.log
   twitter.stream('statuses/filter', params, (stream: any) => {
     stream.on('data', (tweet: any) => {
-      if (tweet.text && !tweet.text.includes("RT")) {
+      console.log("USER ID >>>", tweet.user.id)
+      if (tweet.text && twitterIDs.includes(tweet.user.id)) {
         console.log(tweet.text);
         recentTweetsCache.tweets.push(tweet);
         io.emit(EMIT_TWEET, tweet);
@@ -67,10 +67,7 @@ export default (app: any, io: any) => {
   io.on("connection", (socket: any) => {
     fetchRecentTweets(socket);
     socket.on("connection", () => console.log("Client connected"));
-    socket.on("disconnect", (reason: any) => {
-      console.log("Client disconnected");
-      console.log(reason);
-    });
+    socket.on("disconnect", (reason: any) => console.log("Client disconnected >>", reason));
   });
 };
 
