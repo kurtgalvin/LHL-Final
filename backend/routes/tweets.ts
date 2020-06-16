@@ -46,14 +46,17 @@ const stream = (socket: any) => {
   const params = { follow: twitterIDs.join(',') };
   twitter.stream('statuses/filter', params, (stream: any) => {
     stream.on('data', (tweet: any) => {
-      if (tweet.msg && !tweet.msg.include("RT")) {
+      console.log(tweet.text)
+      if (tweet.text && !tweet.text.includes("RT")) {
+        console.log("in if block")
         recentTweetsCache.tweets.push(tweet)
         socket.emit(EMIT_TWEET, tweet)
       }
     });
 
     stream.on('error', (error: any) => {
-      console.log("stream ERROR");
+      console.log("stream ERROR ---------------------------")
+      console.log(error)
     });
   })
 }
