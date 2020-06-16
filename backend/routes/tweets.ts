@@ -25,7 +25,7 @@ const fetchRecentTweets = (socket: any) => {
   const delay = 15 * 60 * 1000;
   if (!recentTweetsCache.lastUpdate || recentTweetsCache.lastUpdate < Date.now() - delay) {
     recentTweetsCache.tweets = [];
-    twitterIDs.forEach(twitterID => {
+    twitterIDs.slice(1).forEach(twitterID => {
       const params = { user_id: twitterID, include_rts: false };
       twitter.get('statuses/user_timeline', params, (error: any, tweets: any, response: any) => {
         if (!error) {
@@ -46,18 +46,13 @@ const stream = (io: any) => {
   const params = { follow: twitterIDs.join(',') };
   twitter.stream('statuses/filter', params, (stream: any) => {
     stream.on('data', (tweet: any) => {
-      console.log("USER ID >>>", tweet.user.id_str)
       if (tweet.text && twitterIDs.includes(tweet.user.id_str)) {
-        console.log(tweet.text);
         recentTweetsCache.tweets.push(tweet);
         io.emit(EMIT_TWEET, tweet);
       }
     });
 
-    stream.on('error', (error: any) => {
-      console.log("stream ERROR");
-      console.log(error);
-    });
+    stream.on('error', (error: any) => console.log("stream ERROR", error));
   })
 }
 
