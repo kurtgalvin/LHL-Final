@@ -51,6 +51,7 @@ const InfoView: React.FC<IProps> = () => {
         Read More @Vancouver.ca
       </div>
       </a>
+   
     </Paper>
   </Paper>
   )
